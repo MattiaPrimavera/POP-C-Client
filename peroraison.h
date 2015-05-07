@@ -29,11 +29,11 @@ typedef struct{
 } message;
 
 typedef struct {
-  int nombreMessage;
+  int nombreMessages;
   message* listeMessages;
 } pop;
 
-
+extern void envoieServeur(char* requete, int desc);
 extern int reponsePositive(FILE* fdesc, char* firstLine);
 extern int verifieSyntaxe(char* requete, char* controle);
 //void printSvnStruct(svn *own);
@@ -46,7 +46,11 @@ extern void peroraison (char *f, char *m, int n);
 extern int InitConnexion(char *serveur, int port);
 //extern void update_entries(svn *svnentries);
 //extern char *SvnDelete(int argc, char *argv[], svn *own);
+extern int PopQuit(char* requete, int desc, pop* response);
+extern int PopPass(char* requete, int desc, pop* response);
 extern int PopUser(char* requete, int desc, pop* response);
+extern int PopList(char* requete, int desc, pop* response);
+
 //extern char *SvnCommit(int argc, char *argv[], svn *own);
 //extern char *SvnUpdate(int argc, char *argv[], svn *own);
 extern void AnalyseEntetes(FILE *fdesc, int *n);

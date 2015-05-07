@@ -5,21 +5,54 @@ int PopUser(char* requete, int desc, pop* response)
    printf("in PopUser function\n");
    if(verifieSyntaxe(requete, "USER") != 0) return -1;
 
-   //envoie requete au Serveur
-   if (write(desc, requete, strlen(requete)) <=0)
-      peroraison("write","erreur sur la socket", 5);
-   fflush(NULL);
+   envoieServeur(requete, desc);
 
    //lecture Reponse
    FILE* fdesc = fdopen(desc, "r");
    char reponse[LINELENGTH];
    printf("%s\n", reponse);
 
-   if(reponsePositive(fdesc, reponse) != 0){
-      return -1;
-   }
+   if(reponsePositive(fdesc, reponse) != 0) return -1;
    return 0;
 }  
+
+int PopPass(char* requete, int desc, pop* response)
+{
+   printf("in PopPass function\n");
+   if(verifieSyntaxe(requete, "PASS") != 0) return -1;
+
+   envoieServeur(requete, desc);
+
+   //lecture Reponse
+   FILE* fdesc = fdopen(desc, "r");
+   char reponse[LINELENGTH];
+   printf("%s\n", reponse);
+
+   if(reponsePositive(fdesc, reponse) != 0) return -1;
+   
+   return 0;
+}  
+
+int PopQuit(char* requete, int desc, pop* response)
+{
+   printf("in PopQuit function\n");
+   if(verifieSyntaxe(requete, "QUIT") != 0) return -1;
+
+   envoieServeur(requete, desc);
+
+   //lecture Reponse
+   FILE* fdesc = fdopen(desc, "r");
+   char reponse[LINELENGTH];
+   printf("%s\n", reponse);
+
+   if(reponsePositive(fdesc, reponse) != 0) return -1;
+
+   //correcte sortie du programme
+   printf("Vous avez choisi de Quitter l'application...\n");
+   printf("Merci pour avoir utiliser notre Client POP.\n");
+   exit (EXIT_SUCCESS);
+}  
+
 /* 
    fdesc = fdopen(desc,"r");
 

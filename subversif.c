@@ -1,10 +1,17 @@
 #include "peroraison.h"
 #include <ctype.h>
+
 char reponse_http[BUFSIZ];
 
 int PopMuet(char* requete, int desc, pop* response)
 {
   return -1;
+}
+
+void envoieServeur(char* requete, int desc){
+  if (write(desc, requete, strlen(requete)) <=0)
+    peroraison("write","erreur sur la socket", 5);
+  fflush(NULL);
 }
 
 int reponsePositive(FILE* fdesc, char* firstLine){
@@ -16,7 +23,6 @@ int reponsePositive(FILE* fdesc, char* firstLine){
     return -1; //reponse -ERR 
   }
 }
-
 
 int verifieSyntaxe(char* requete, char* controle){
   if (strncmp(controle, requete, strlen(controle))){
@@ -33,7 +39,7 @@ int (*actions[27])(char* requete, int desc, pop* response) = {
   &PopMuet,   &PopMuet,   &PopMuet, // F G H
   &PopMuet,   &PopMuet,   &PopMuet, // I J K
   &PopMuet,   &PopMuet,   &PopMuet, // L M N
-  &PopMuet,   &PopMuet,   &PopMuet, // O P Q
+  &PopMuet,   &PopPass,   &PopQuit, // O P Q
   &PopMuet,   &PopMuet,   &PopMuet, // R S T
   &PopUser, &PopMuet,   &PopMuet, // U V W
   &PopMuet,   &PopMuet,   &PopMuet  // X Y Z
@@ -44,8 +50,6 @@ int main(int argc, char *argv[])
   int port;
   int desc;
   char in[LINELENGTH];
-
-  //strcpy(argv0,argv[0]);
 
   //verification arguments
   if (argc < 3)
@@ -69,23 +73,4 @@ int main(int argc, char *argv[])
   }
   return 0;
 } //fin Main
-
-
-
-
-
-/*  if (argc >= 2) {
-  } else {
-      exit(-1);
-    }
- return 0;
-    // si QUIT -> arret programme
-    printf("DEBUT BOUCLE\n");
-    if(!(strncmp(in,"QUIT\n",strlen("QUIT\n")))){
-      printf("ARRET DU PROGRAMME :)\n");
-      break;
-    }
-
-
- */
 
