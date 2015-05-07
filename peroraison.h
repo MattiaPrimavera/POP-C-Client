@@ -20,19 +20,24 @@
 #define TRUE 1
 #define FALSE 0
 
-typedef struct{
+typedef struct message message;
+struct message{
   int id;
+  int taille;
   char *emetteur;
   char *date;
   char *contenu;
   char *name;
-} message;
+  message* next;
+};
 
 typedef struct {
   int nombreMessages;
   message* listeMessages;
 } pop;
 
+
+extern void addMessage(pop* response, message* mex);
 extern void envoieServeur(char* requete, int desc);
 extern int reponsePositive(FILE* fdesc, char* firstLine);
 extern int verifieSyntaxe(char* requete, char* controle);

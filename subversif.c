@@ -8,6 +8,25 @@ int PopMuet(char* requete, int desc, pop* response)
   return -1;
 }
 
+//ajoute un Message a la fin de la liste
+void addMessage(pop* response, message* mex){
+  //cas liste vide
+  if(response->nombreMessages == 0){
+    response->listeMessages = mex;
+    response->nombreMessages = 1;
+  }
+  else{ //ajout message en fin de liste chainee
+    message* tmp = response->listeMessages;
+
+    int i;
+    for(i = 0; i < response->nombreMessages-1; i++){
+      tmp = tmp->next;
+    }
+    tmp->next = mex;
+    response->nombreMessages++;
+  }
+}
+
 void envoieServeur(char* requete, int desc){
   if (write(desc, requete, strlen(requete)) <=0)
     peroraison("write","erreur sur la socket", 5);
@@ -38,7 +57,7 @@ int (*actions[27])(char* requete, int desc, pop* response) = {
   &PopMuet,   &PopMuet,   &PopMuet, // C D E
   &PopMuet,   &PopMuet,   &PopMuet, // F G H
   &PopMuet,   &PopMuet,   &PopMuet, // I J K
-  &PopMuet,   &PopMuet,   &PopMuet, // L M N
+  &PopList,   &PopMuet,   &PopMuet, // L M N
   &PopMuet,   &PopPass,   &PopQuit, // O P Q
   &PopMuet,   &PopMuet,   &PopMuet, // R S T
   &PopUser, &PopMuet,   &PopMuet, // U V W
@@ -62,7 +81,11 @@ int main(int argc, char *argv[])
   printf("Connexion sur %s sur le port %d\n", argv[1],port);
   desc = InitConnexion(argv[1], port);
 
+  //initialisation structure response
   pop response;
+  response.nombreMessages = 0;
+  response.listeMessages = NULL;
+
   while (fgets(in,LINELENGTH,stdin)){ 
     printf("REQUETE: %s\n", in);
     //fflush(NULL);
