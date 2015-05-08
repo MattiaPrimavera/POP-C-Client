@@ -11,11 +11,12 @@
 #include <time.h>		/* clair */
 #include <ctype.h> /* pour isalpha et isdigit */
 #include <errno.h> /* pour perror et errno */
-#include "expat.h"
+#include <ctype.h>
+
 
 #define hash_balise(b) ((('a' <= *(b)) && (*(b) <= 'z')) ? (*(b)-'a'+1) : 0)
-#define PROXY proxy
-#define PROXY_PORT 1080
+//#define PROXY proxy
+//#define PROXY_PORT 1080
 #define LINELENGTH 1024
 #define TRUE 1
 #define FALSE 0
@@ -27,7 +28,6 @@ struct message{
   char *emetteur;
   char *date;
   char *contenu;
-  char *name;
   message* next;
 };
 
@@ -36,13 +36,14 @@ typedef struct {
   message* listeMessages;
 } pop;
 
-
+extern int extractEnTete(char* enTete, char* source, char* destination);
+extern message* findById(int id, pop* response);
 extern void addMessage(pop* response, message* mex);
 extern void envoieServeur(char* requete, int desc);
 extern int reponsePositive(FILE* fdesc, char* firstLine);
 extern int verifieSyntaxe(char* requete, char* controle);
 //void printSvnStruct(svn *own);
-extern char reponse_http[BUFSIZ];
+//extern char reponse_http[BUFSIZ];
 extern int PopMuet(char* requete, int desc, pop* response);
 extern int (*actions[27])(char* requete, int desc, pop* response);
 extern int main(int argc, char *argv[]);
@@ -51,11 +52,14 @@ extern void peroraison (char *f, char *m, int n);
 extern int InitConnexion(char *serveur, int port);
 //extern void update_entries(svn *svnentries);
 //extern char *SvnDelete(int argc, char *argv[], svn *own);
+
 extern int PopQuit(char* requete, int desc, pop* response);
 extern int PopPass(char* requete, int desc, pop* response);
 extern int PopUser(char* requete, int desc, pop* response);
 extern int PopList(char* requete, int desc, pop* response);
+extern int PopTop(char* requete, int desc, pop* response);
+extern int PopRetr(char* requete, int desc, pop* response);
 
 //extern char *SvnCommit(int argc, char *argv[], svn *own);
 //extern char *SvnUpdate(int argc, char *argv[], svn *own);
-extern void AnalyseEntetes(FILE *fdesc, int *n);
+extern void AnalyseEntetes(int mexId, FILE *fdesc, pop* response);

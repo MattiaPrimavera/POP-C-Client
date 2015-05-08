@@ -63,10 +63,10 @@ P=peroraison
 C=InitConnexion
 A=AnalyseEntetes
 
-T=entries.xml
+#T=entries.xml
 
-ALLC=$(B).c $(P).c $(C).c user_req.c list_req.c $(A).c
-ALLO=$P.o $(C).o user_req.o list_req.o $(A).o
+ALLC=$(B).c $(P).c $(C).c user_req.c list_req.c top_req.c retr_req.c $(A).c
+ALLO=$P.o $(C).o user_req.o list_req.o top_req.o retr_req.o $(A).o
 
 
 $(B):	$(B).c $(ALLO) $(P).h

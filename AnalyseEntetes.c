@@ -1,50 +1,51 @@
 #include "peroraison.h"
 
-void AnalyseEntetes(FILE *fdesc, int *n)
+void AnalyseEntetes(int mexId, FILE *fdesc, pop* response)
 {
-  char buf[LINELENGTH];
+  char reponse[LINELENGTH];
+  int from = FALSE, date = FALSE;
+
+  printf("in analyse entetes ... \n");
+  
+  //ERRORE NELLA FUNZIONE findByID non trova un cazzo, sembra che list non memorizzi l'id
 
 
-  while (fgets(buf, LINELENGTH, fdesc))
-  {    
-    char *ptr;
-    if (strlen(buf) <= 2) break;
-    write(STDOUT_FILENO, buf, strlen(buf));
-    fflush(NULL);
-
-    //treatement reponse POSITIVE    
-    if (!strncmp(buf, "+OK", strlen("+OK"))){
-      printf("REPONSE POSITIVE!\n");
-      break;
-    }
-
-    //treatement reponse NEGATIVE    
-    if (!strncmp(buf, "-ERR", strlen("-ERR"))){
-      printf("REPONSE NEGATIVE!\n");
-      break;
-    }
-
-    /*if (sscanf(buf, "Content-Length: %d", n)) {
-      continue;
-    }
-    if (stype || strncmp(buf, "Content-Type: ", strlen("Content-Type: ")))
-      continue;
-
-    ptr = strchr (buf+strlen("Content-Type: "), '/');
-    if (!ptr) continue;
-    ptr++;
-    stype = strsep (&ptr, "; \r\n");
-
-  // dans le cas "mixed",  on garde ce qui suit (cf q5).
-
-    if (!strncmp(stype, "mixed", strlen("mixed"))) {
-      ptr[-1] = ';' ;
-      strtok_r (0, "; \r\n", &ptr) ;
-      return strdup(stype) ;
-    }*/
-
-    //stype = strdup( stype );
+  //récuperation ou création du message
+  message *mex;
+  if((mex = findById(mexId, response)) == NULL){
+    printf("Message not Found ... Creating one ...\n");
+    mex = (message*)malloc(sizeof(message));
+    mex->emetteur = (char*)malloc(150*sizeof(char));
+    mex->date = (char*)malloc(150*sizeof(char));
+    addMessage(response, mex);
   }
-  // Il vaudrait renvoyer stype toujours, pour faire Free si non vide.
-  //return stype ? stype : "html";
+
+  while (fgets(reponse, LINELENGTH, fdesc)){    
+    //condition d'arret
+    if(!strncmp(".", reponse, strlen("."))){
+      printf("\nfin entetes ...\n");
+      break;
+    }
+
+    printf("%s", reponse);
+
+    //sauvegarde en-tete From
+    if(!from){
+      if(!extractEnTete("From: ", reponse, mex->emetteur))
+        from=TRUE;
+      //if(sscanf(reponse, "From: %s\n", mex->emetteur))
+      //  from=TRUE;
+    }
+
+    //sauvegarde en-tete Date
+    if(!date){
+      if(!extractEnTete("Date: ", reponse, mex->date))
+        date=TRUE;
+
+      //if(sscanf(reponse, "Date: %s\n", mex->date))
+        //date=TRUE;
+    }
+  }//fin while
+  printf("En-tetes trouvees:\nFrom: %s\nDate: %s\n", mex->emetteur, mex->date);
+
 }

@@ -1,11 +1,36 @@
 #include "peroraison.h"
-#include <ctype.h>
 
 char reponse_http[BUFSIZ];
 
 int PopMuet(char* requete, int desc, pop* response)
 {
   return -1;
+}
+
+int extractEnTete(char* enTete, char* source, char* destination){
+  if(!strncmp(enTete, source, strlen(enTete))){
+    source += strlen(enTete);
+    char* tmp = index(source, '\n');
+    *tmp = 0;
+    strcpy(destination, source);
+    return 0;
+  }
+  return -1;
+}
+
+message* findById(int id, pop* response){
+  if(response->nombreMessages == 0){
+    printf("listeMessages BIEN VIDE!\n");
+    return NULL;
+  }
+
+  message* tmp = response->listeMessages;
+  int i;
+  for(i = 0; i < response->nombreMessages-1; i++){
+    if(tmp->id == id) return tmp;
+  }
+  printf("AUCUN ID NE CORRESPOND!!!\n\n\n"); 
+  return NULL;
 }
 
 //ajoute un Message a la fin de la liste
@@ -59,7 +84,7 @@ int (*actions[27])(char* requete, int desc, pop* response) = {
   &PopMuet,   &PopMuet,   &PopMuet, // I J K
   &PopList,   &PopMuet,   &PopMuet, // L M N
   &PopMuet,   &PopPass,   &PopQuit, // O P Q
-  &PopMuet,   &PopMuet,   &PopMuet, // R S T
+  &PopRetr,   &PopMuet,   &PopTop, // R S T
   &PopUser, &PopMuet,   &PopMuet, // U V W
   &PopMuet,   &PopMuet,   &PopMuet  // X Y Z
 };
