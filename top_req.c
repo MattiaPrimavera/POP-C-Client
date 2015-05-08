@@ -22,7 +22,7 @@ int PopTop(char* requete, int desc, pop* response)
 	printf("MEX ID inserted: %d\n", mexId);
 	//if(mexId <= 0) return -1;
 
-	printf("ID messaggio1 : %d\n", response->listeMessages->id);
+	//printf("ID messaggio1 : %d\n", response->listeMessages->id);
 	//interpretation en-tetes
 	AnalyseEntetes(mexId, fdesc, response);
 

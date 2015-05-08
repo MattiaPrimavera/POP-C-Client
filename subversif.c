@@ -28,6 +28,7 @@ message* findById(int id, pop* response){
   int i;
   for(i = 0; i < response->nombreMessages-1; i++){
     if(tmp->id == id) return tmp;
+    tmp = tmp->next;
   }
   printf("AUCUN ID NE CORRESPOND!!!\n\n\n"); 
   return NULL;

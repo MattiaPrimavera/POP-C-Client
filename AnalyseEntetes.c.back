@@ -9,6 +9,7 @@ void AnalyseEntetes(int mexId, FILE *fdesc, pop* response)
   
   //ERRORE NELLA FUNZIONE findByID non trova un cazzo, sembra che list non memorizzi l'id
 
+
   //récuperation ou création du message
   message *mex;
   if((mex = findById(mexId, response)) == NULL){
@@ -18,33 +19,31 @@ void AnalyseEntetes(int mexId, FILE *fdesc, pop* response)
     mex->date = (char*)malloc(150*sizeof(char));
     addMessage(response, mex);
   }
-  else{ //message déjà dans listeMessages
-    mex->emetteur = (char*)malloc(150*sizeof(char));
-    mex->date = (char*)malloc(150*sizeof(char));
-    printf("LE MESSAGE A BIEN ETE' TROUVE' \n");
-  }
 
   while (fgets(reponse, LINELENGTH, fdesc)){    
-    //conditions d'arret
+    //condition d'arret
     if(!strncmp(".", reponse, strlen("."))){
       printf("\nfin entetes ...\n");
       break;
-    }//le corps du message va suivre 
-    if(!strncmp("\n", reponse, strlen("\n"))){
-      printf("\nfin entetes ...\n");
-      break;
     }
 
-    //printf("%s", reponse);
+    printf("%s", reponse);
 
-    //sauvegarde en-tetes From et Date
+    //sauvegarde en-tete From
     if(!from){
       if(!extractEnTete("From: ", reponse, mex->emetteur))
         from=TRUE;
+      //if(sscanf(reponse, "From: %s\n", mex->emetteur))
+      //  from=TRUE;
     }
+
+    //sauvegarde en-tete Date
     if(!date){
       if(!extractEnTete("Date: ", reponse, mex->date))
         date=TRUE;
+
+      //if(sscanf(reponse, "Date: %s\n", mex->date))
+        //date=TRUE;
     }
   }//fin while
   printf("En-tetes trouvees:\nFrom: %s\nDate: %s\n", mex->emetteur, mex->date);
