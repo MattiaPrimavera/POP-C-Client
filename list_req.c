@@ -13,6 +13,7 @@ int PopList(char* requete, int desc, pop* response)
 	printf("%s", reponse);
 	if(reponsePositive(fdesc, reponse) != 0) return -1;
 
+	cleanPop(response);
 	//lecture corps reponse
 	while (fgets(reponse, LINELENGTH, fdesc)){
 		printf("%s", reponse);

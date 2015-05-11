@@ -10,9 +10,15 @@ int PopUser(char* requete, int desc, pop* response)
    //lecture Reponse
    FILE* fdesc = fdopen(desc, "r");
    char reponse[LINELENGTH];
-   printf("%s\n", reponse);
 
-   if(reponsePositive(fdesc, reponse) != 0) return -1;
+   printf("Preparation Lecture Reponse\n");
+   fflush(NULL);
+   if(reponsePositive(fdesc, &reponse[0]) != 0){
+      printf("REPONSE NEG:%s\n", reponse);
+      return -1;
+   }
+   printf("REPONSE:%s\n", reponse);
+
    return 0;
 }  
 

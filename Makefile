@@ -54,23 +54,27 @@ XP_DEFINES = $(XP_NS) $(XP_DTD) $(XP_BO) $(XP_UNI) $(XP_UNI_WC) $(XP_MM)
 # To get debugging, set this to -g
 OPT = -O
 #I=-I/usr/include
+L=/usr/lib/X11
+l=X11
 
 CC = cc -Wall 
 #$(OPT) $(XP_INC) $(XP_DEFINES) $I
 
 B=subversif
+C=clickable-pop
 P=peroraison
-C=InitConnexion
+I=InitConnexion
 A=AnalyseEntetes
+E=events
 
 #T=entries.xml
 
-ALLC=$(B).c $(P).c $(C).c user_req.c list_req.c top_req.c retr_req.c $(A).c
-ALLO=$P.o $(C).o user_req.o list_req.o top_req.o retr_req.o $(A).o
+ALLC=$(B).c $(C).c $(P).c $(E).c $(I).c user_req.c list_req.c top_req.c retr_req.c $(A).c
+ALLO=$P.o $(C).o $(E).o $(I).o user_req.o list_req.o top_req.o retr_req.o $(A).o
 
 
 $(B):	$(B).c $(ALLO) $(P).h
-	$(CC) $< $(ALLO) -o $@
+	$(CC) $< $(ALLO) -l$l -o $@
 
 %.o:    %.c $(P).h
 	$(CC) -c $< -o $@ 

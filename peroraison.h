@@ -13,10 +13,11 @@
 #include <errno.h> /* pour perror et errno */
 #include <ctype.h>
 
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#include <X11/Xutil.h>
 
 #define hash_balise(b) ((('a' <= *(b)) && (*(b) <= 'z')) ? (*(b)-'a'+1) : 0)
-//#define PROXY proxy
-//#define PROXY_PORT 1080
 #define LINELENGTH 1024
 #define TRUE 1
 #define FALSE 0
@@ -36,23 +37,23 @@ typedef struct {
   message* listeMessages;
 } pop;
 
+
+//textual utilities
+extern void cleanPop(pop* response);
 extern int extractEnTete(char* enTete, char* source, char* destination);
 extern message* findById(int id, pop* response);
 extern void addMessage(pop* response, message* mex);
 extern void envoieServeur(char* requete, int desc);
 extern int reponsePositive(FILE* fdesc, char* firstLine);
 extern int verifieSyntaxe(char* requete, char* controle);
-//void printSvnStruct(svn *own);
-//extern char reponse_http[BUFSIZ];
-extern int PopMuet(char* requete, int desc, pop* response);
 extern int (*actions[27])(char* requete, int desc, pop* response);
 extern int main(int argc, char *argv[]);
-extern char argv0[128];
 extern void peroraison (char *f, char *m, int n);
 extern int InitConnexion(char *serveur, int port);
-//extern void update_entries(svn *svnentries);
-//extern char *SvnDelete(int argc, char *argv[], svn *own);
+extern void AnalyseEntetes(int mexId, FILE *fdesc, pop* response);
 
+//requests functions
+extern int PopMuet(char* requete, int desc, pop* response);
 extern int PopQuit(char* requete, int desc, pop* response);
 extern int PopPass(char* requete, int desc, pop* response);
 extern int PopUser(char* requete, int desc, pop* response);
@@ -60,6 +61,55 @@ extern int PopList(char* requete, int desc, pop* response);
 extern int PopTop(char* requete, int desc, pop* response);
 extern int PopRetr(char* requete, int desc, pop* response);
 
-//extern char *SvnCommit(int argc, char *argv[], svn *own);
-//extern char *SvnUpdate(int argc, char *argv[], svn *own);
-extern void AnalyseEntetes(int mexId, FILE *fdesc, pop* response);
+
+//GRAPHIC PART
+#define MARGIN 10
+#define BORDER 2
+
+//extern int desc;
+extern Display *dpy;
+extern Window fen;
+extern Window deroulante[7]; // TME
+extern char *rainbow[6]; // TME
+
+typedef struct desc_case {
+  int colspan;
+  int rowspan;
+  char *onmouseover;
+  char *onmouseout;
+  XColor bgcolor;
+  char *id;
+  Window fenetre;
+  struct desc_case * next;
+} liste_de_case;
+
+typedef struct desc_ligne {
+  struct desc_case * premier;
+  struct desc_case * dernier;
+  struct desc_ligne * next;
+} liste_de_ligne;
+
+typedef struct {
+  int nb_tr;
+  int nb_td;
+  int width;
+  int height;
+  liste_de_ligne *premier;
+  liste_de_ligne *dernier;
+} XTable;
+
+//displaying windows
+extern void createXTable(void *data, pop* response);
+extern void createTableLine(void *data, pop* response);
+extern void createTableCell(void *data,  pop* response);
+extern void add_line(XTable *t, liste_de_ligne *r);
+extern void add_cell(XTable *t, liste_de_case *r);
+extern void create_td_window(XTable *own, Window fen);
+extern liste_de_case *findCaseFromWindow(Window w, XTable *own);
+extern liste_de_case *findCaseFromId(char *id, XTable *own);
+
+//managing events
+extern void fEnter(XCrossingEvent *e, XTable *own);
+extern void fLeave(XCrossingEvent *e, XTable *own);
+extern void fKeyPress();
+extern void fButtonPress(XButtonEvent *e, XTable *own);
