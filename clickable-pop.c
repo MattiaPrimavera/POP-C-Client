@@ -1,22 +1,34 @@
 #include "peroraison.h"
 
-void createXTable(void *data, pop* response)
-{
+void createXLoginTable(void *data, user* admin){
+  int i, j;
+  XTable *own = (XTable*) data;
+  own->nb_tr = 2;
+  own->nb_td = 1;
+
+  for(i=0; i<own->nb_tr; i++){
+    createTableLine(data);
+    for(j=0; j<own->nb_td; j++){
+      createTableCell(data);
+    }
+  }  
+}
+
+void createXTable(void *data, pop* response){
   int i, j;
   XTable *own = (XTable*) data;
   own->nb_tr = response->nombreMessages;
   own->nb_td = 3;
 
-  for(i=0; i<response->nombreMessages; i++){
-    createTableLine(data, response);
-    for(j=0; j<3; j++){
-      createTableCell(data, response);
+  for(i=0; i<own->nb_tr; i++){
+    createTableLine(data);
+    for(j=0; j<own->nb_td; j++){
+      createTableCell(data);
     }
-  }
+  }  
 }
 
-//per creare sotto finestre
-// declarer les fenetres
+// declarer les sous-fenetres
 void create_td_window(XTable *own, Window fen)
 {
 	liste_de_ligne *q;
@@ -45,7 +57,7 @@ void create_td_window(XTable *own, Window fen)
 }
 
 //per creare le linee
-void createTableLine(void *data, pop* response)
+void createTableLine(void *data)
 {
   XTable *own = (XTable *) data;
 
@@ -62,7 +74,7 @@ void createTableLine(void *data, pop* response)
 }
 
 //per creare le celle 
-void createTableCell(void *data, pop* response)
+void createTableCell(void *data)
 {
   XTable *own = (XTable *) data;
 
@@ -77,19 +89,6 @@ void createTableCell(void *data, pop* response)
   r->colspan = 1;
   r->id =  NULL;
   r->next =  NULL;
-    /*for (j = 0; atts[j]; j+=2) { 
-      if (!strcasecmp(atts[j], "style")) {
-	     style_bg_color(atts[j+1], r);
-      } else if (!strcasecmp(atts[j], "onmouseover")) {
-	     r->onmouseover = strdup(atts[j+1]);
-      } else if (!strcasecmp(atts[j], "onmouseout")) {
-	     r->onmouseout = strdup(atts[j+1]);
-      } else if (!strcasecmp(atts[j], "id")) {
-	     r->id = strdup(atts[j+1]);
-      } else if (!strcasecmp(atts[j], "colspan")) {
-	     r->colspan = (!atts[j+1] ? 1 : strtol(atts[j+1], NULL, 10));
-      }
-    }*/
   add_cell(own, r);
   if (!own->nb_tr) own->nb_td += r->colspan;
 }
@@ -108,4 +107,37 @@ void add_cell(XTable *t, liste_de_case *r)
 	   t->dernier->dernier->next = r;
       else t->dernier->premier = r;
       t->dernier->dernier = r;
+}
+
+void fKeyPress (XKeyEvent *e)
+{
+  printf("fenetre %lu en mode %d arrete\n", e->window, e->send_event);
+
+  XFreeGC(dpy, gc);
+//  XFreeGC(dpy, gcinv);
+  XCloseDisplay(dpy);
+  printf("%lu en mode %d arrete\n", e->window, e->send_event);
+  exit(0);
+}
+
+
+void creerGC ()
+{
+  XGCValues   xgcv;
+  char* f = "-*-new century schoolbook-*-*-*-*-16-*-*-*-*-*-*-*";
+  if (!(font = XLoadQueryFont(dpy, f)))
+    {fprintf(stderr, "police %s inconnue.\n", f);exit(1);}
+
+  espacement = (font->ascent + font->descent)<<1;
+  largeur    = espacement<<3;
+
+  xgcv.font = font->fid;
+
+  xgcv.foreground = BlackPixel(dpy, DefaultScreen(dpy));
+  xgcv.background = WhitePixel(dpy, DefaultScreen(dpy));
+  gc = XCreateGC(dpy, racine, GCForeground|GCBackground|GCFont, &xgcv);
+
+//  xgcv.foreground = WhitePixel(dpy, DefaultScreen(dpy));
+//  xgcv.background = BlackPixel(dpy, DefaultScreen(dpy));
+//  gcinv = XCreateGC(dpy, racine, GCForeground|GCBackground|GCFont, &xgcv);
 }

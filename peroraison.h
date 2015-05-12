@@ -63,14 +63,22 @@ extern int PopRetr(char* requete, int desc, pop* response);
 
 
 //GRAPHIC PART
+#define DISPLAYTEXT(win, x, y, text) \
+ XDrawString(dpy, win, gc, x, y, text, strlen(text));
+
 #define MARGIN 10
 #define BORDER 2
+#define nb_LIGNES 10
 
 //extern int desc;
 extern Display *dpy;
-extern Window fen;
-extern Window deroulante[7]; // TME
-extern char *rainbow[6]; // TME
+extern Window racine, filles[nb_LIGNES];
+extern GC gc;
+
+typedef struct{
+  char name[15];
+  char password[15];
+} user;
 
 typedef struct desc_case {
   int colspan;
@@ -99,17 +107,21 @@ typedef struct {
 } XTable;
 
 //displaying windows
+extern void createXLoginTable(void *data, user* admin);
 extern void createXTable(void *data, pop* response);
-extern void createTableLine(void *data, pop* response);
-extern void createTableCell(void *data,  pop* response);
+extern void createTableLine(void *data);
+extern void createTableCell(void *data);
 extern void add_line(XTable *t, liste_de_ligne *r);
 extern void add_cell(XTable *t, liste_de_case *r);
 extern void create_td_window(XTable *own, Window fen);
-extern liste_de_case *findCaseFromWindow(Window w, XTable *own);
-extern liste_de_case *findCaseFromId(char *id, XTable *own);
+//extern liste_de_case *findCaseFromWindow(Window w, XTable *own);
+//extern liste_de_case *findCaseFromId(char *id, XTable *own);
 
 //managing events
 extern void fEnter(XCrossingEvent *e, XTable *own);
 extern void fLeave(XCrossingEvent *e, XTable *own);
-extern void fKeyPress();
+extern void fKeyPress(XKeyEvent *e);
 extern void fButtonPress(XButtonEvent *e, XTable *own);
+
+
+extern void creerGC();
