@@ -16,6 +16,8 @@
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/Xutil.h>
+#include <X11/cursorfont.h> 
+#include <X11/keysym.h>
 
 #define hash_balise(b) ((('a' <= *(b)) && (*(b) <= 'z')) ? (*(b)-'a'+1) : 0)
 #define LINELENGTH 1024
@@ -83,8 +85,8 @@ extern       XSetWindowAttributes attributes;
      extern XFontStruct *fontinfo; 
 
 typedef struct{
-  char name[15];
-  char password[15];
+  char name[20];
+  char password[20];
 } user;
 
 typedef struct desc_case {
@@ -128,9 +130,12 @@ extern void create_td_window(XTable *own, Window fen);
 //managing events
 extern void fEnter(XCrossingEvent *e, XTable *own);
 extern void fLeave(XCrossingEvent *e, XTable *own);
-extern void fKeyPress();
+extern void fKeyPress(XKeyEvent *event, user* user);
 extern void fButtonPress(XButtonEvent *e, XTable *own);
+extern void fExpose(XExposeEvent *e, user* user);
+
 
 extern void creerGC();
 extern void createMainWindow(XTable* own, Window* racine);
+//extern void clickableMainVero(int argc, char** argv);
 

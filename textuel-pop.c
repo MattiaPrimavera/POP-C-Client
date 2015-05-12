@@ -5,12 +5,11 @@ Display *dpy;
 Window racine, filles[nb_LIGNES], loginWin[2], loginFocus;
 GC gc;
 XFontStruct *font;
-      Visual *visual; 
-      int screen;
-      int depth; 
-      XSetWindowAttributes attributes; 
-      XFontStruct *fontinfo; 
-
+Visual *visual; 
+int screen;
+int depth; 
+XSetWindowAttributes attributes; 
+XFontStruct *fontinfo; 
 
 int PopMuet(char* requete, int desc, pop* response)
 {
@@ -163,6 +162,7 @@ int main(int argc, char *argv[])
     own.width= 500;//100;
     own.height= 250;//50;
 
+    user admin;
     /*racine = XCreateSimpleWindow(dpy, DefaultRootWindow(dpy), 0, 0, 
              own.width + (MARGIN<<1), 
              own.height + (MARGIN<<1),
@@ -173,11 +173,10 @@ int main(int argc, char *argv[])
     //XSelectInput(dpy,racine,KeyPressMask | ExposureMask);
     
     //createXTable(&own, &response);
-    user admin;
     //creerGC();
     createMainWindow(&own, &racine);
-    //createXLoginTable(&own, &admin);
-    //createLoginWindow(&own, racine);
+    createXLoginTable(&own, &admin);
+    createLoginWindow(&own, racine);
     //create_td_window(&own, racine);
     XMapWindow(dpy, racine);
     XMapSubwindows(dpy, racine);
@@ -186,13 +185,14 @@ int main(int argc, char *argv[])
         XNextEvent(dpy, &e);
         switch (e.type)
         {
-        case KeyPress: fKeyPress(); break;
+        case KeyPress: fKeyPress(&e.xkey, &admin); break;
         case LeaveNotify: {fLeave(&e.xcrossing, &own); break;}
         case EnterNotify: {fEnter(&e.xcrossing, &own); break;}
         case ButtonPress: {fButtonPress(&e.xbutton, &own); break;} // TME
         case Expose: {
-          char* text ="CIAO";
-          //DISPLAYTEXT(loginWin[0], 10, 10, text);
+          fExpose(&e.xexpose, &admin);
+          //char* text ="POMPINONE PERCHE SONO BRAVOOOOOOOOOOOOOOOOOOOOOOO <3<3<3<3<3<3<3<3";
+          //DISPLAYTEXT(loginWin[0], 50, 50, text);
           break;
         }
         default: break;
