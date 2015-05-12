@@ -46,7 +46,7 @@ void createLoginWindow(XTable *own, Window fen)
       XDrawString(dpy, loginWin[count,] gc, j, i, "CIAO", strlen("CIAO"));
   }*/
 
-  for (count = 0, i=MARGIN; count < 2 ; count++, i+=height){
+  for (count = 0, i=30; count < 2 ; count++, i+=height){
     screen = DefaultScreen(dpy);
     visual = DefaultVisual(dpy,screen); 
     depth  = DefaultDepth(dpy,screen); 

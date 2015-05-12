@@ -10,6 +10,12 @@ int screen;
 int depth; 
 XSetWindowAttributes attributes; 
 XFontStruct *fontinfo; 
+XTable own;
+
+
+//connexion
+int desc;
+pop response;
 
 int PopMuet(char* requete, int desc, pop* response)
 {
@@ -107,7 +113,6 @@ int (*actions[27])(char* requete, int desc, pop* response) = {
 int main(int argc, char *argv[])
 {
   int port;
-  int desc;
   char in[LINELENGTH];
 
   //verification arguments
@@ -125,7 +130,6 @@ int main(int argc, char *argv[])
   desc = InitConnexion(argv[1], port);
 
   //initialisation structure response
-  pop response;
   response.nombreMessages = 0;
   response.listeMessages = NULL;
 
@@ -139,16 +143,16 @@ int main(int argc, char *argv[])
     }
   }else if(!strcmp(argv[3], "-c"))
   { //MODE CLICKABLE
-    if(PopUser("USER moi\n", desc, &response) != 0)
+/*    if(PopUser("USER moi\n", desc, &response) != 0)
       peroraison("PopUser", "User not recognized", 6);
     if(PopPass("PASS a\n", desc, &response) != 0)
       peroraison("PopPass", "Pass not recognized", 7);
     if(PopList("LIST\n", desc, &response) != 0)
       peroraison("PopList", "Message list cannot be retrieved", 8);
-
+*/
     Window racine;
     XEvent e;
-    XTable own;
+    //XTable own;
 
     if ((dpy = XOpenDisplay(NULL)) == NULL)
       {fprintf(stderr, "%s: dispositif %s injoignable\n", argv[0],
@@ -160,7 +164,7 @@ int main(int argc, char *argv[])
     own.nb_tr= 0;
     own.nb_td= 0;
     own.width= 500;//100;
-    own.height= 250;//50;
+    own.height= 300;//50;
 
     user admin;
     /*racine = XCreateSimpleWindow(dpy, DefaultRootWindow(dpy), 0, 0, 

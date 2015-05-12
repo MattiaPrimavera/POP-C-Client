@@ -39,6 +39,9 @@ typedef struct {
   message* listeMessages;
 } pop;
 
+//connexion
+extern int desc;
+extern pop response;
 
 //textual utilities
 extern void cleanPop(pop* response);
@@ -72,18 +75,6 @@ extern int PopRetr(char* requete, int desc, pop* response);
 #define BORDER 2
 #define nb_LIGNES 10
 
-//extern int desc;
-extern Display *dpy;
-extern Window racine, filles[nb_LIGNES], loginWin[2];
-extern GC gc;
-extern XFontStruct *font;
-Window loginFocus;
-   extern   Visual *visual; 
-    extern  int screen;
-    extern  int depth; 
-extern       XSetWindowAttributes attributes; 
-     extern XFontStruct *fontinfo; 
-
 typedef struct{
   char name[20];
   char password[20];
@@ -115,6 +106,18 @@ typedef struct {
   liste_de_ligne *dernier;
 } XTable;
 
+extern Display *dpy;
+extern Window racine, filles[nb_LIGNES], loginWin[2];
+extern GC gc;
+extern XFontStruct *font;
+extern Window loginFocus;
+extern   Visual *visual; 
+extern  int screen;
+extern  int depth; 
+extern       XSetWindowAttributes attributes; 
+extern XFontStruct *fontinfo; 
+extern XTable own;
+
 //displaying windows
 extern void createXLoginTable(void *data, user* admin);
 extern void createXTable(void *data, pop* response);
@@ -135,7 +138,11 @@ extern void fButtonPress(XButtonEvent *e, XTable *own);
 extern void fExpose(XExposeEvent *e, user* user);
 
 
-extern void creerGC();
 extern void createMainWindow(XTable* own, Window* racine);
+extern void updateLoginField(char* buffer, user* user);
+extern void delOneLoginField(char* buffer, user* user);
+extern int sendLogin(user* user);
+void restartLogin();
+void showListWindow();
 //extern void clickableMainVero(int argc, char** argv);
 
