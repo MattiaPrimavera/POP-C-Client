@@ -1,6 +1,16 @@
 #include "peroraison.h"
 
+//GLOBAL VARS
 Display *dpy;
+Window racine, filles[nb_LIGNES], loginWin[2], loginFocus;
+GC gc;
+XFontStruct *font;
+      Visual *visual; 
+      int screen;
+      int depth; 
+      XSetWindowAttributes attributes; 
+      XFontStruct *fontinfo; 
+
 
 int PopMuet(char* requete, int desc, pop* response)
 {
@@ -153,19 +163,22 @@ int main(int argc, char *argv[])
     own.width= 500;//100;
     own.height= 250;//50;
 
-    racine = XCreateSimpleWindow(dpy, DefaultRootWindow(dpy), 0, 0, 
+    /*racine = XCreateSimpleWindow(dpy, DefaultRootWindow(dpy), 0, 0, 
              own.width + (MARGIN<<1), 
              own.height + (MARGIN<<1),
              0,
              BlackPixel(dpy,DefaultScreen(dpy)),
-             WhitePixel(dpy,DefaultScreen(dpy)));
+             WhitePixel(dpy,DefaultScreen(dpy)));*/
 
-    XSelectInput(dpy,racine,KeyPressMask);
+    //XSelectInput(dpy,racine,KeyPressMask | ExposureMask);
     
     //createXTable(&own, &response);
     user admin;
-    createXLoginTable(&own, &admin);
-    create_td_window(&own, racine);
+    //creerGC();
+    createMainWindow(&own, &racine);
+    //createXLoginTable(&own, &admin);
+    //createLoginWindow(&own, racine);
+    //create_td_window(&own, racine);
     XMapWindow(dpy, racine);
     XMapSubwindows(dpy, racine);
     
@@ -176,7 +189,12 @@ int main(int argc, char *argv[])
         case KeyPress: fKeyPress(); break;
         case LeaveNotify: {fLeave(&e.xcrossing, &own); break;}
         case EnterNotify: {fEnter(&e.xcrossing, &own); break;}
-    //     case ButtonPress: {fButtonPress(&e.xbutton, &own); break;} // TME
+        case ButtonPress: {fButtonPress(&e.xbutton, &own); break;} // TME
+        case Expose: {
+          char* text ="CIAO";
+          //DISPLAYTEXT(loginWin[0], 10, 10, text);
+          break;
+        }
         default: break;
         }
     }

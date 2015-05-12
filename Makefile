@@ -60,7 +60,7 @@ l=X11
 CC = cc -Wall 
 #$(OPT) $(XP_INC) $(XP_DEFINES) $I
 
-B=subversif
+B=textuel-pop
 C=clickable-pop
 P=peroraison
 I=InitConnexion

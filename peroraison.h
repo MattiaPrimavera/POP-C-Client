@@ -72,8 +72,15 @@ extern int PopRetr(char* requete, int desc, pop* response);
 
 //extern int desc;
 extern Display *dpy;
-extern Window racine, filles[nb_LIGNES];
+extern Window racine, filles[nb_LIGNES], loginWin[2];
 extern GC gc;
+extern XFontStruct *font;
+Window loginFocus;
+   extern   Visual *visual; 
+    extern  int screen;
+    extern  int depth; 
+extern       XSetWindowAttributes attributes; 
+     extern XFontStruct *fontinfo; 
 
 typedef struct{
   char name[15];
@@ -109,6 +116,7 @@ typedef struct {
 //displaying windows
 extern void createXLoginTable(void *data, user* admin);
 extern void createXTable(void *data, pop* response);
+extern void createLoginWindow(XTable *own, Window fen);
 extern void createTableLine(void *data);
 extern void createTableCell(void *data);
 extern void add_line(XTable *t, liste_de_ligne *r);
@@ -120,8 +128,9 @@ extern void create_td_window(XTable *own, Window fen);
 //managing events
 extern void fEnter(XCrossingEvent *e, XTable *own);
 extern void fLeave(XCrossingEvent *e, XTable *own);
-extern void fKeyPress(XKeyEvent *e);
+extern void fKeyPress();
 extern void fButtonPress(XButtonEvent *e, XTable *own);
 
-
 extern void creerGC();
+extern void createMainWindow(XTable* own, Window* racine);
+
