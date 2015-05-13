@@ -12,76 +12,78 @@ void fLeave(XCrossingEvent *e, XTable *own){ }
 
 void fKeyPress (XKeyEvent *event, user* user)
 {
-  int count;
+  static int userOk = FALSE, passwdOK = FALSE;
+  //int count;
   int buffer_size = 1; char buffer[2]; buffer[1] = 0;
   KeySym keysym;
   XComposeStatus compose;
-  count = XLookupString(event,buffer,buffer_size, &keysym, &compose);
+  /*count = */XLookupString(event,buffer,buffer_size, &keysym, &compose);
 
   //Return Key
   if(keysym == XK_Return){
-    if(sendLogin(user) != 0)
-      restartLogin(user);
-    else
-      showListWindow();
+    printf("retour chariot\n");
+    if((!passwdOK && userOk) || (passwdOK && !userOk)){
+      if(sendLogin(user) != 0)
+        restartLogin(user);
+      else
+        showListWindow();
+    }
+    if(loginFocus == loginWin[0]){
+      printf("Setting User True\n");
+      userOk = TRUE; loginFocus = loginWin[1];
+    }
+    else if(loginFocus == loginWin[1]){
+      printf("Setting Pass True\n");
+      passwdOK = TRUE; loginFocus = loginWin[0];
+    }
   }//ASCII chars
-  if ((keysym >= XK_space) && (keysym <= XK_asciitilde)){
+  else if ((keysym >= XK_space) && (keysym <= XK_asciitilde)){
     printf ("Ascii key:- ");
     updateLoginField(buffer, user);
-
-    /*if (event->state & ShiftMask)
-     printf("(Shift) %s\n", buffer);
-    else if (event->state & LockMask)
-     printf("(Caps Lock) %s\n", buffer);
-    else if (event->state & ControlMask)
-     printf("(Control) %c\n", 'a'+ buffer[0]-1) ;
-    else printf("%s\n", buffer) ;*/
-    } //SPECIAL CARACTERS 
-    else if ((keysym >= XK_Shift_L) && (keysym <= XK_Hyper_R)){
-      printf ("modifier key:- ");
-      switch (keysym){
-        case XK_Shift_L: printf("Left Shift\n"); break;
-        case XK_Shift_R: printf("Right Shift\n");break;
-        case XK_Control_L: printf("Left Control\n");break;
-        case XK_Control_R: printf("Right Control\n"); break;
-        case XK_Caps_Lock: printf("Caps Lock\n"); break;
-        case XK_Shift_Lock: printf("Shift Lock\n");break;
-        case XK_Meta_L: printf("Left Meta\n");  break;
-        case XK_Meta_R: printf("Right Meta\n"); break;
-
-      }
-    } //ARROW KEYS
-    else if ((keysym >= XK_Left) && (keysym <= XK_Down)){
-      printf("Arrow Key:-");
-      switch(keysym){
-        case XK_Left: printf("Left\n");break;
-        case XK_Up:
-          if(loginFocus != loginWin[0]) loginFocus = loginWin[0]; 
-          printf("Up\n");
-          break;
-        case XK_Right: printf("Right\n");break;
-        case XK_Down: 
-          if(loginFocus != loginWin[1]) loginFocus = loginWin[1];
-          printf("Down\n");
-          break; 
-      }
-    } //F KEYS
-    else if ((keysym >= XK_F1) && (keysym <= XK_F35)){
-      printf ("function key %d pressed\n", (int)(keysym - XK_F1));
-      if (buffer == NULL)
-       printf("No matching string\n");
-      else
-       printf("matches <%s>\n",buffer);
-    } //DELETE KEYS
-    else if ((keysym == XK_BackSpace) || (keysym == XK_Delete)){
-      delOneLoginField(buffer, user);
-
-      printf("Delete\n");
+  } //SPECIAL CARACTERS 
+  else if ((keysym >= XK_Shift_L) && (keysym <= XK_Hyper_R)){
+    printf ("modifier key:- ");
+    switch (keysym){
+      case XK_Shift_L: printf("Left Shift\n"); break;
+      case XK_Shift_R: printf("Right Shift\n");break;
+      case XK_Control_L: printf("Left Control\n");break;
+      case XK_Control_R: printf("Right Control\n"); break;
+      case XK_Caps_Lock: printf("Caps Lock\n"); break;
+      case XK_Shift_Lock: printf("Shift Lock\n");break;
+      case XK_Meta_L: printf("Left Meta\n");  break;
+      case XK_Meta_R: printf("Right Meta\n"); break;
     }
+  } //ARROW KEYS
+  else if ((keysym >= XK_Left) && (keysym <= XK_Down)){
+    printf("Arrow Key:-");
+    switch(keysym){
+      case XK_Left: printf("Left\n");break;
+      case XK_Up:
+      if(loginFocus != loginWin[0]) loginFocus = loginWin[0]; 
+      printf("Up\n");
+      break;
+      case XK_Right: printf("Right\n");break;
+      case XK_Down: 
+      if(loginFocus != loginWin[1]) loginFocus = loginWin[1];
+      printf("Down\n");
+      break; 
+    }
+  } //F KEYS
+  else if ((keysym >= XK_F1) && (keysym <= XK_F35)){
+    printf ("function key %d pressed\n", (int)(keysym - XK_F1));
+    if (buffer == NULL)
+      printf("No matching string\n");
+    else
+      printf("matches <%s>\n",buffer);
+  } //DELETE KEYS
+  else if ((keysym == XK_BackSpace) || (keysym == XK_Delete)){
+    delOneLoginField(buffer, user);
+    printf("Delete\n");
+  }
 
-    else if ((keysym >= XK_KP_0) && (keysym <= XK_KP_9)){
-      printf("Number pad key %d\n", (int)(keysym -  XK_KP_0));
-      updateLoginField(buffer, user);
+  else if ((keysym >= XK_KP_0) && (keysym <= XK_KP_9)){
+    printf("Number pad key %d\n", (int)(keysym -  XK_KP_0));
+    updateLoginField(buffer, user);
   }
   else if (keysym == XK_Break) {
     printf("closing dpy\n"); 
@@ -95,10 +97,6 @@ void fKeyPress (XKeyEvent *event, user* user)
 void fButtonPress(XButtonEvent *e, XTable *own)
 {
   loginFocus = e->window;
-  /*if(loginFocus == loginWin[0])
-    printf("Finestra USER\n");
-  else if(loginFocus == loginWin[1])
-    printf("Finestra PASSWD\n");*/
 }
 
 void updateLoginField(char* buffer, user* user){
@@ -112,8 +110,10 @@ void updateLoginField(char* buffer, user* user){
   else{
     if(strlen(user->password) > 15) return;
     strcat(user->password, buffer);
-    sprintf(&affichage[0], "PASSWD: %s", user->password);
-    DISPLAYTEXT(loginWin[1], 50, 50, affichage);
+    sprintf(&affichage[0], "PASSWD: ");
+    int i;
+    for(i=0; i<strlen(user->password); i++) strcat(affichage, "*");
+      DISPLAYTEXT(loginWin[1], 50, 50, affichage);
   }
 }
 
@@ -130,8 +130,10 @@ void delOneLoginField(char* buffer, user* user){
     user->password[strlen(user->password)-1] = 0;
     printf("EXPOSE --> logWin[1]\n");
     XClearWindow(dpy, loginWin[1]);
-    sprintf(affichage, "PASSWD: %s", user->password);
-    DISPLAYTEXT(loginWin[1], 50, 50, affichage);
+    sprintf(affichage, "PASSWD: ");
+    int i;
+    for(i=0; i<strlen(user->password); i++) strcat(affichage, "*");
+      DISPLAYTEXT(loginWin[1], 50, 50, affichage);
   } 
 }
 

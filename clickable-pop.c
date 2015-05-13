@@ -61,8 +61,7 @@ void createLoginWindow(XTable *own, Window fen)
     //XDrawString(dpy, loginWin[count], gc, j, i, "CIAOOOOOOOOOOOOOOOOOOO", strlen("CIAOOOOOOOOOOOOOOOOOOO"));
 
   }
-
-
+  loginFocus = loginWin[0];
 }
 
 // declarer les sous-fenetres
