@@ -1,5 +1,6 @@
 #include <strings.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdlib.h>		/* pour EXIT_SUCCESS, EXIT_FAILURE */
 #include <sys/socket.h>		/* pour socket */
@@ -139,6 +140,7 @@ extern void fButtonPress(XButtonEvent *e, XTable *own);
 extern void fExpose(XExposeEvent *e, user* user);
 
 
+extern void decoratingListWindow();
 extern void createMainWindow();
 extern void createListWindow();
 extern void updateLoginField(char* buffer, user* user);

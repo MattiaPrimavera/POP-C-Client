@@ -125,6 +125,18 @@ int sendLogin(user* user){
     return -1;
   if(PopList("LIST\n", desc, &response) != 0)
     return -1;
+  //TOP request for each message retrieved
+  if(response.nombreMessages == 0) return -1;
+  PopTop("TOP 1 0\n", desc, &response);
+
+  /*
+  int i;
+  for(i=0; i<response.nombreMessages-1; i++){
+    sprintf(request, "TOP %d 0\n", i+1);
+    if(PopTop(request, desc, &response) != 0)
+      return -1;
+  }*/
+  
   return 0;
 }
 
@@ -147,7 +159,5 @@ void showListWindow(){
   XUnmapWindow(dpy, loginWin[1]);
   XClearWindow(dpy, racine);
   createListWindow();
-  //createXTable();
-  //create_td_window(racine);
   XMapWindow(dpy, racine);
 }

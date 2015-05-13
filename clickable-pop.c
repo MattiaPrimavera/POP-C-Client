@@ -24,8 +24,8 @@ void graphicalMain(int argc, char** argv){
   }
 
   //INITIALIZATION STRUCTURE OWN
-  own.premier = NULL;
-  own.dernier = NULL;
+  //own.premier = NULL;
+  //own.dernier = NULL;
   own.nb_tr= 0;
   own.nb_td= 0;
   own.width= 500;//100;
@@ -57,14 +57,11 @@ void graphicalMain(int argc, char** argv){
   exit(0);
 }
 
-void initOwn(){
-
-}
-
 //first window appearing to the screen
 void createLoginWindow(Window fen)
 {
-  createXLoginTable(own, &admin);
+  own.nb_tr = 2;
+  own.nb_td = 1;
   int i,j=MARGIN;
   int width = (int) (own.width / own.nb_td);
   int height = (int) (own.height / own.nb_tr);
@@ -83,36 +80,6 @@ void createLoginWindow(Window fen)
   }
   loginFocus = loginWin[0];
 }
-
-// declarer les sous-fenetres
-void create_td_window(Window fen)
-{
-	liste_de_ligne *q;
-  liste_de_case *p;
-  int i,j;
-  int width = (int) (own.width / own.nb_td);
-  int height = (int) (own.height / own.nb_tr);
-  //unsigned long mask;
-
-  int counter = 0;
-	for (q = own.premier, i=MARGIN; q ; q = q->next, i+=height){
-    for (p = q->premier, j=MARGIN; p ; p = p->next){
-
-	   	p->fenetre = XCreateSimpleWindow(dpy, fen,j,i,
-				       (width * p->colspan) - BORDER,
-				       (height * p->rowspan) - BORDER,
-				       BORDER, 
-				       WhitePixel(dpy,DefaultScreen(dpy)),
-				       p->bgcolor.pixel);
-	   	
-      XSelectInput(dpy, p->fenetre, ButtonPressMask | ExposureMask);
-	  	j+= (width*p->colspan);
-      filles[counter] = p->fenetre;
-      counter++;
-      XMapWindow(dpy, p->fenetre);
-  	}
-  }//end for
-}//end function
 
 void createListWindow(){
   int i,j;
@@ -137,11 +104,59 @@ void createListWindow(){
                WhitePixel(dpy,DefaultScreen(dpy)),
                bgcolor.pixel);
       
-      XSelectInput(dpy, filles[counterX*own.nb_td + counterY], ButtonPressMask | ExposureMask);
+      XSelectInput(dpy, filles[counterX*own.nb_td + counterY], ExposureMask);
       j+= (width);
       XMapWindow(dpy, filles[counterX*own.nb_td + counterY]);
     }
   }//end for
+
+  //CREATING QUIT BUTTON
+  filles[own.nb_tr * own.nb_td] = XCreateSimpleWindow(dpy, racine, MARGIN, 
+               MARGIN + height * own.nb_tr,
+               (width - BORDER)* 3 + MARGIN,
+               height - BORDER,
+               BORDER, 
+               WhitePixel(dpy,DefaultScreen(dpy)),
+               bgcolor.pixel);
+
+  XSelectInput(dpy, filles[own.nb_tr * own.nb_td], ButtonPressMask | ExposureMask);
+  XMapWindow(dpy, filles[own.nb_tr * own.nb_td]);
+
+  decoratingListWindow();
+}
+
+void decoratingListWindow(){
+  int width = (int) (own.width / own.nb_td);
+  int height = (int) (own.height / own.nb_tr);
+  
+  int x = width/2 - width/4;
+  int y = height/2 - height/5;
+
+  //INTESTATION
+  DISPLAYTEXT(filles[0], x, y, "IDENTIFIANT");
+  DISPLAYTEXT(filles[1], x, y, "FROM");
+  DISPLAYTEXT(filles[2], x, y, "DATE");
+
+  char idBuffer[5];
+  sprintf(idBuffer, "%d", response.listeMessages->next->id);
+  DISPLAYTEXT(filles[3], x, y, idBuffer);
+  DISPLAYTEXT(filles[4], x, y, response.listeMessages->next->emetteur);
+  DISPLAYTEXT(filles[5], x, y, response.listeMessages->next->date);
+
+  //MESSAGE GRID
+  /*char idBuffer[5];
+  message* mex = response.listeMessages;
+  int i, j=3;
+  for(i = 0; i < response.nombreMessages; i++){
+    sprintf(idBuffer, "%d", mex->id);
+    DISPLAYTEXT(filles[j], x, y, idBuffer);
+    DISPLAYTEXT(filles[j+1], x, y, mex->date);
+    DISPLAYTEXT(filles[j+2], x, y, mex->emetteur);
+    mex = mex->next;
+    j++;
+  }*/
+
+  DISPLAYTEXT(filles[own.nb_tr * own.nb_td], x+1.5*width - width/4, y, "QUIT");
 }
 
 void createMainWindow(){
