@@ -66,11 +66,12 @@ P=peroraison
 I=InitConnexion
 A=AnalyseEntetes
 E=events
+X=xtable
 
 #T=entries.xml
 
-ALLC=$(B).c $(C).c $(P).c $(E).c $(I).c user_req.c list_req.c top_req.c retr_req.c $(A).c
-ALLO=$P.o $(C).o $(E).o $(I).o user_req.o list_req.o top_req.o retr_req.o $(A).o
+ALLC=$(B).c $(C).c $(P).c $(E).c $(I).c $(X).c user_req.c list_req.c top_req.c retr_req.c $(A).c
+ALLO=$P.o $(C).o $(E).o $(I).o $(X).o user_req.o list_req.o top_req.o retr_req.o $(A).o
 
 
 $(B):	$(B).c $(ALLO) $(P).h

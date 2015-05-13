@@ -39,7 +39,7 @@ typedef struct {
   message* listeMessages;
 } pop;
 
-//connexion
+//textuel global variables
 extern int desc;
 extern pop response;
 
@@ -107,7 +107,7 @@ typedef struct {
 } XTable;
 
 extern Display *dpy;
-extern Window racine, filles[nb_LIGNES], loginWin[2];
+extern Window racine, filles[nb_LIGNES*3], loginWin[2];
 extern GC gc;
 extern XFontStruct *font;
 extern Window loginFocus;
@@ -118,17 +118,18 @@ extern       XSetWindowAttributes attributes;
 extern XFontStruct *fontinfo; 
 extern XTable own;
 
+extern void graphicalMain(int argc, char** argv);
+
+
 //displaying windows
-extern void createXLoginTable(void *data, user* admin);
-extern void createXTable(void *data, pop* response);
-extern void createLoginWindow(XTable *own, Window fen);
+extern void createXLoginTable();
+extern void createXTable();
+extern void createLoginWindow(Window fen);
 extern void createTableLine(void *data);
 extern void createTableCell(void *data);
 extern void add_line(XTable *t, liste_de_ligne *r);
 extern void add_cell(XTable *t, liste_de_case *r);
-extern void create_td_window(XTable *own, Window fen);
-//extern liste_de_case *findCaseFromWindow(Window w, XTable *own);
-//extern liste_de_case *findCaseFromId(char *id, XTable *own);
+extern void create_td_window(Window fen);
 
 //managing events
 extern void fEnter(XCrossingEvent *e, XTable *own);
@@ -138,11 +139,11 @@ extern void fButtonPress(XButtonEvent *e, XTable *own);
 extern void fExpose(XExposeEvent *e, user* user);
 
 
-extern void createMainWindow(XTable* own, Window* racine);
+extern void createMainWindow();
+extern void createListWindow();
 extern void updateLoginField(char* buffer, user* user);
 extern void delOneLoginField(char* buffer, user* user);
 extern int sendLogin(user* user);
 void restartLogin();
 void showListWindow();
-//extern void clickableMainVero(int argc, char** argv);
 

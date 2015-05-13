@@ -13,18 +13,19 @@ void fLeave(XCrossingEvent *e, XTable *own){ }
 void fKeyPress (XKeyEvent *event, user* user)
 {
   static int userOk = FALSE, passwdOK = FALSE;
-  //int count;
   int buffer_size = 1; char buffer[2]; buffer[1] = 0;
   KeySym keysym;
   XComposeStatus compose;
-  /*count = */XLookupString(event,buffer,buffer_size, &keysym, &compose);
+  XLookupString(event,buffer,buffer_size, &keysym, &compose);
 
   //Return Key
   if(keysym == XK_Return){
     printf("retour chariot\n");
     if((!passwdOK && userOk) || (passwdOK && !userOk)){
-      if(sendLogin(user) != 0)
+      if(sendLogin(user) != 0){
         restartLogin(user);
+        passwdOK = FALSE; userOk = FALSE;
+      }
       else
         showListWindow();
     }
@@ -40,19 +41,6 @@ void fKeyPress (XKeyEvent *event, user* user)
   else if ((keysym >= XK_space) && (keysym <= XK_asciitilde)){
     printf ("Ascii key:- ");
     updateLoginField(buffer, user);
-  } //SPECIAL CARACTERS 
-  else if ((keysym >= XK_Shift_L) && (keysym <= XK_Hyper_R)){
-    printf ("modifier key:- ");
-    switch (keysym){
-      case XK_Shift_L: printf("Left Shift\n"); break;
-      case XK_Shift_R: printf("Right Shift\n");break;
-      case XK_Control_L: printf("Left Control\n");break;
-      case XK_Control_R: printf("Right Control\n"); break;
-      case XK_Caps_Lock: printf("Caps Lock\n"); break;
-      case XK_Shift_Lock: printf("Shift Lock\n");break;
-      case XK_Meta_L: printf("Left Meta\n");  break;
-      case XK_Meta_R: printf("Right Meta\n"); break;
-    }
   } //ARROW KEYS
   else if ((keysym >= XK_Left) && (keysym <= XK_Down)){
     printf("Arrow Key:-");
@@ -68,25 +56,14 @@ void fKeyPress (XKeyEvent *event, user* user)
       printf("Down\n");
       break; 
     }
-  } //F KEYS
-  else if ((keysym >= XK_F1) && (keysym <= XK_F35)){
-    printf ("function key %d pressed\n", (int)(keysym - XK_F1));
-    if (buffer == NULL)
-      printf("No matching string\n");
-    else
-      printf("matches <%s>\n",buffer);
   } //DELETE KEYS
   else if ((keysym == XK_BackSpace) || (keysym == XK_Delete)){
     delOneLoginField(buffer, user);
-    printf("Delete\n");
-  }
-
+  } //NUMBER PAD KEYS
   else if ((keysym >= XK_KP_0) && (keysym <= XK_KP_9)){
-    printf("Number pad key %d\n", (int)(keysym -  XK_KP_0));
     updateLoginField(buffer, user);
-  }
+  } //BREAK CARACTER
   else if (keysym == XK_Break) {
-    printf("closing dpy\n"); 
     XCloseDisplay(dpy); 
     exit (0);
   }else{
@@ -139,7 +116,6 @@ void delOneLoginField(char* buffer, user* user){
 
 int sendLogin(user* user){
   char request[30];
-    //sending User-Name
   sprintf(request, "USER %s\n", user->name);
   printf("RICHIESTA DA INVIARE:%s", request);
   if(PopUser(request, desc, &response) != 0)
@@ -169,8 +145,9 @@ void showListWindow(){
 
   XUnmapWindow(dpy, loginWin[0]);
   XUnmapWindow(dpy, loginWin[1]);
-  //XClearWindow(dpy, racine);
-  //createXTable(&own, &response);
-  //create_td_window(&own, racine);
-
+  XClearWindow(dpy, racine);
+  createListWindow();
+  //createXTable();
+  //create_td_window(racine);
+  XMapWindow(dpy, racine);
 }

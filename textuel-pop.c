@@ -1,24 +1,10 @@
 #include "peroraison.h"
 
-//GLOBAL VARS
-Display *dpy;
-Window racine, filles[nb_LIGNES], loginWin[2], loginFocus;
-GC gc;
-XFontStruct *font;
-Visual *visual; 
-int screen;
-int depth; 
-XSetWindowAttributes attributes; 
-XFontStruct *fontinfo; 
-XTable own;
-
-
 //connexion
 int desc;
 pop response;
 
-int PopMuet(char* requete, int desc, pop* response)
-{
+int PopMuet(char* requete, int desc, pop* response){
   return -1;
 }
 
@@ -115,7 +101,7 @@ int main(int argc, char *argv[])
   int port;
   char in[LINELENGTH];
 
-  //verification arguments
+  //VERIFICATION ARGUMENTS
   if (argc < 4)
     peroraison("argc", "nombre d'arguments incorrect", 3);
 
@@ -125,87 +111,24 @@ int main(int argc, char *argv[])
   if(strcmp(argv[3], "-t") && strcmp(argv[3], "-c") && strcmp(argv[3], "-g"))
     peroraison("option arg", "option argument missing", 5);
 
-  //connexion au serveur
+  //CONNEXION AU SERVEUR
   printf("Connexion sur %s sur le port %d\n", argv[1],port);
   desc = InitConnexion(argv[1], port);
 
-  //initialisation structure response
+  //INITIALIZATION STRUCTURE REPONSE
   response.nombreMessages = 0;
   response.listeMessages = NULL;
 
-  if(!strcmp(argv[3], "-t"))
-  { //MODE TEXTUEL
+  if(!strcmp(argv[3], "-t")){ //MODE TEXTUEL
     while (fgets(in,LINELENGTH,stdin)){ 
-      printf("REQUETE: %s\n", in);
-      //on divise le traitement par requetes...
+      //printf("REQUETE: %s\n", in);
       char sep = tolower(in[0]);
       printf("%d\n", actions[hash_balise(&sep)](in, desc, &response));
     }
-  }else if(!strcmp(argv[3], "-c"))
-  { //MODE CLICKABLE
-/*    if(PopUser("USER moi\n", desc, &response) != 0)
-      peroraison("PopUser", "User not recognized", 6);
-    if(PopPass("PASS a\n", desc, &response) != 0)
-      peroraison("PopPass", "Pass not recognized", 7);
-    if(PopList("LIST\n", desc, &response) != 0)
-      peroraison("PopList", "Message list cannot be retrieved", 8);
-*/
-    Window racine;
-    XEvent e;
-    //XTable own;
-
-    if ((dpy = XOpenDisplay(NULL)) == NULL)
-      {fprintf(stderr, "%s: dispositif %s injoignable\n", argv[0],
-         XDisplayName(NULL));
-        exit(2);}
-    
-    own.premier = NULL;
-    own.dernier = NULL;
-    own.nb_tr= 0;
-    own.nb_td= 0;
-    own.width= 500;//100;
-    own.height= 300;//50;
-
-    user admin;
-    /*racine = XCreateSimpleWindow(dpy, DefaultRootWindow(dpy), 0, 0, 
-             own.width + (MARGIN<<1), 
-             own.height + (MARGIN<<1),
-             0,
-             BlackPixel(dpy,DefaultScreen(dpy)),
-             WhitePixel(dpy,DefaultScreen(dpy)));*/
-
-    //XSelectInput(dpy,racine,KeyPressMask | ExposureMask);
-    
-    //createXTable(&own, &response);
-    //creerGC();
-    createMainWindow(&own, &racine);
-    createXLoginTable(&own, &admin);
-    createLoginWindow(&own, racine);
-    //create_td_window(&own, racine);
-    XMapWindow(dpy, racine);
-    XMapSubwindows(dpy, racine);
-    
-    while (1) {
-        XNextEvent(dpy, &e);
-        switch (e.type)
-        {
-        case KeyPress: fKeyPress(&e.xkey, &admin); break;
-        case LeaveNotify: {fLeave(&e.xcrossing, &own); break;}
-        case EnterNotify: {fEnter(&e.xcrossing, &own); break;}
-        case ButtonPress: {fButtonPress(&e.xbutton, &own); break;} // TME
-        case Expose: {
-          fExpose(&e.xexpose, &admin);
-          //char* text ="POMPINONE PERCHE SONO BRAVOOOOOOOOOOOOOOOOOOOOOOO <3<3<3<3<3<3<3<3";
-          //DISPLAYTEXT(loginWin[0], 50, 50, text);
-          break;
-        }
-        default: break;
-        }
-    }
-    exit(0);
+  }else if(!strcmp(argv[3], "-c")){ //MODE CLICKABLE
+    graphicalMain(argc, argv);
   }//fin mode clickable
  
-
   return 0;
 } //fin Main
 
