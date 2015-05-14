@@ -21,7 +21,7 @@ int PopList(char* requete, int desc, pop* response)
 		//condition d'arret
 		if(!strncmp(".", reponse, strlen("."))){
 			printf("Numero messaggi trovati: %d\n", response->nombreMessages);
-			printf("2eme message:\nid = %d\ntaille = %d\n", response->listeMessages->next->id, response->listeMessages->next->taille);
+			//printf("2eme message:\nid = %d\ntaille = %d\n", response->listeMessages->next->id, response->listeMessages->next->taille);
 			return 0;
 		}
 
