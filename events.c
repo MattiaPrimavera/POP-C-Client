@@ -75,6 +75,15 @@ void fButtonPress(XButtonEvent *e)
 {
   loginFocus = e->window;
   if(e->window == filles[own.nb_tr * own.nb_td]) PopQuit("QUIT\n", desc, &response);
+  //look for the right IDENTIFIANT window
+  int i;
+  for(i=1; i<own.nb_tr-1; i++){
+    if(e->window == filles[i*3]){
+      char requete[20];
+      sprintf(requete, "RETR %d\n", i);
+      PopRetr(requete, desc, &response);
+    }
+  }
 }
 
 void updateLoginField(char* buffer, user* user){

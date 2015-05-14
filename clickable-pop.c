@@ -104,7 +104,8 @@ void createListWindow(){
                WhitePixel(dpy,DefaultScreen(dpy)),
                bgcolor.pixel);
       
-      XSelectInput(dpy, filles[counterX*own.nb_td + counterY], ExposureMask);
+      if((counterX*own.nb_td + counterY) % 3 == 0) XSelectInput(dpy, filles[counterX*own.nb_td + counterY], ButtonPressMask | ExposureMask); 
+      else XSelectInput(dpy, filles[counterX*own.nb_td + counterY], ExposureMask);
       j+= (width);
       XMapWindow(dpy, filles[counterX*own.nb_td + counterY]);
     }
