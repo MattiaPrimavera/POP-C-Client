@@ -4,9 +4,6 @@
 int desc;
 pop response;
 
-int PopMuet(char* requete, int desc, pop* response){
-  return -1;
-}
 
 int extractEnTete(char* enTete, char* source, char* destination){
   if(!strncmp(enTete, source, strlen(enTete))){

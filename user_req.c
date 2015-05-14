@@ -59,6 +59,9 @@ int PopQuit(char* requete, int desc, pop* response)
    exit (EXIT_SUCCESS);
 }  
 
+int PopMuet(char* requete, int desc, pop* response){
+  return -1;
+}
 
 
 

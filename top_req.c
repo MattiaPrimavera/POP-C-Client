@@ -24,7 +24,7 @@ int PopTop(char* requete, int desc, pop* response)
 
 	//printf("ID messaggio1 : %d\n", response->listeMessages->id);
 	//interpretation en-tetes
-	AnalyseEntetes(mexId, fdesc, response);
+	AnalyseEntetes(requete, mexId, fdesc, response);
 
     //sortie avec erreur
 	return -1;

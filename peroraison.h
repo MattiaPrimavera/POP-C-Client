@@ -56,7 +56,13 @@ extern int (*actions[27])(char* requete, int desc, pop* response);
 extern int main(int argc, char *argv[]);
 extern void peroraison (char *f, char *m, int n);
 extern int InitConnexion(char *serveur, int port);
-extern void AnalyseEntetes(int mexId, FILE *fdesc, pop* response);
+extern void AnalyseEntetes(char* requete, int mexId, FILE *fdesc, pop* response);
+extern void sauvegardeMessage(char* contentType, int mexId, char* entetes, char* corps);
+extern char* sauvegardeEnTetes(char* entetes, FILE* fdesc, message* mex);
+extern void sauvegardeCorps(char* reponse, FILE* fdesc);
+extern char* isMimeSimple(char* contentType);
+extern char* isMimeMultipart(char* contentType);
+
 
 //requests functions
 extern int PopMuet(char* requete, int desc, pop* response);

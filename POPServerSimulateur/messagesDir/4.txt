@@ -5,6 +5,7 @@ Received: from client.example.com ([192.0.2.1])
         for <recipient@example.com>; Tue, 20 Jan 2004 22:34:24 +0200
 From: sender@example.com
 Date: 22/01/13
+Content-Type: text/plain
 Subject: Test message
 To: recipient@example.com
 Message-Id: <20040120203404.CCCC18555.mx1.example.com@client.example.com>
