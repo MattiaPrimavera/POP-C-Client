@@ -44,7 +44,7 @@ void graphicalMain(int argc, char** argv){
       case KeyPress: fKeyPress(&e.xkey, &admin); break;
       case LeaveNotify: {fLeave(&e.xcrossing, &own); break;}
       case EnterNotify: {fEnter(&e.xcrossing, &own); break;}
-      case ButtonPress: {fButtonPress(&e.xbutton, &own); break;} // TME
+      case ButtonPress: {fButtonPress(&e.xbutton); break;} // TME
       case Expose: {
         fExpose(&e.xexpose, &admin);
           //char* text ="POMPINONE PERCHE SONO BRAVOOOOOOOOOOOOOOOOOOOOOOO <3<3<3<3<3<3<3<3";
@@ -137,24 +137,18 @@ void decoratingListWindow(){
   DISPLAYTEXT(filles[1], x, y, "FROM");
   DISPLAYTEXT(filles[2], x, y, "DATE");
 
-  char idBuffer[5];
-  sprintf(idBuffer, "%d", response.listeMessages->next->id);
-  DISPLAYTEXT(filles[3], x, y, idBuffer);
-  DISPLAYTEXT(filles[4], x, y, response.listeMessages->next->emetteur);
-  DISPLAYTEXT(filles[5], x, y, response.listeMessages->next->date);
-
   //MESSAGE GRID
-  /*char idBuffer[5];
+  char idBuffer[5];
   message* mex = response.listeMessages;
   int i, j=3;
-  for(i = 0; i < response.nombreMessages; i++){
+  for(i = 0; i < response.nombreMessages-1; i++){
     sprintf(idBuffer, "%d", mex->id);
     DISPLAYTEXT(filles[j], x, y, idBuffer);
     DISPLAYTEXT(filles[j+1], x, y, mex->date);
     DISPLAYTEXT(filles[j+2], x, y, mex->emetteur);
     mex = mex->next;
-    j++;
-  }*/
+    j += 3;
+  }
 
   DISPLAYTEXT(filles[own.nb_tr * own.nb_td], x+1.5*width - width/4, y, "QUIT");
 }

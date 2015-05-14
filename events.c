@@ -71,9 +71,10 @@ void fKeyPress (XKeyEvent *event, user* user)
   }
 }
 
-void fButtonPress(XButtonEvent *e, XTable *own)
+void fButtonPress(XButtonEvent *e)
 {
   loginFocus = e->window;
+  if(e->window == filles[own.nb_tr * own.nb_td]) PopQuit("QUIT\n", desc, &response);
 }
 
 void updateLoginField(char* buffer, user* user){
@@ -126,16 +127,17 @@ int sendLogin(user* user){
   if(PopList("LIST\n", desc, &response) != 0)
     return -1;
   //TOP request for each message retrieved
-  if(response.nombreMessages == 0) return -1;
-  PopTop("TOP 1 0\n", desc, &response);
+  //if(response.nombreMessages == 0) return -1;
+  //PopTop("TOP 1 0\n", desc, &response);
 
-  /*
+  
   int i;
   for(i=0; i<response.nombreMessages-1; i++){
-    sprintf(request, "TOP %d 0\n", i+1);
-    if(PopTop(request, desc, &response) != 0)
-      return -1;
-  }*/
+    sprintf(request, "TOP %d 0\n", i);
+    PopTop(request, desc, &response);
+    //if(PopTop(request, desc, &response) != 0)
+    //  return -1;
+  }
   
   return 0;
 }

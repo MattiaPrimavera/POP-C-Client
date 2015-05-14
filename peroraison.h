@@ -136,7 +136,7 @@ extern void create_td_window(Window fen);
 extern void fEnter(XCrossingEvent *e, XTable *own);
 extern void fLeave(XCrossingEvent *e, XTable *own);
 extern void fKeyPress(XKeyEvent *event, user* user);
-extern void fButtonPress(XButtonEvent *e, XTable *own);
+extern void fButtonPress(XButtonEvent *e);
 extern void fExpose(XExposeEvent *e, user* user);
 
 
