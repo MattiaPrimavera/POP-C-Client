@@ -26,6 +26,7 @@ void AnalyseEntetes(char* requete, int mexId, FILE *fdesc, pop* response)
     char corps[LINELENGTH*4];
     sauvegardeCorps(corps, fdesc);
     printf("CORPS:\n%sFINCORPS\n", corps);
+    sauvegardeMessage(contentType, mexId, entetes, corps);
   }
   printf("ENTETES:\n%sFIN ENTETES\n", entetes);
 
@@ -64,6 +65,8 @@ char* sauvegardeEnTetes(char* entetes, FILE* fdesc, message* mex){
         content=TRUE;
     }
     reponse = reponse + strlen(reponse);
+    *reponse = '\n';
+    reponse++;
   }//fin while
   if(content) return contentType;
   else return NULL;
@@ -84,44 +87,76 @@ void sauvegardeCorps(char* reponse, FILE* fdesc){
 
 void sauvegardeMessage(char* contentType, int mexId, char* entetes, char* corps){
   if(!contentType){ //CONTENT-TYPE ABSENT
-
+    SauveContenu("txt", mexId, entetes, "w");
+    SauveContenu("txt", mexId, corps, "a");
   }
-  else if(!isMimeSimple(contentType)){
+  else{
+    char* result = isMimeSimple(contentType);
 
-  }
-  else if(!isMimeMultipart(contentType)){
-    
+    if(!result){
+      SauveContenu("txt", mexId, entetes, "w");
+      SauveContenu("txt", mexId, corps, "a");
+    }
+    if(!strcmp(result, "multipart"))
+      printf("WRITING MULTIPART FILE\n");
+    else{
+      printf("WRITING SIMPLE MIME FILE\n");
+      SauveContenu(result, mexId, entetes, "w");
+      SauveContenu(result, mexId, corps, "a");
+    }  
   }
 }
 
-void SauveContenu(char *stype, FILE *fdesc, int size)
+void SauveContenu(char* extension, int mexId, char* source, char* mode)
 {
-  char buf[FILENAME_MAX];
-  size_t n;
-  int k;
+  char filename[20];
   FILE *fd;
-
-  sprintf(buf, "/tmp/%d.%s", (int)time(NULL), stype);
-  fd = fopen(buf, "w");
+  sprintf(filename, "%d.%s", mexId, extension);
+  fd = fopen(filename, mode);
+  
   if (fd == NULL)
-    peroraison("fopen", "Impossible d'enregistrer le fichier", 2);
-  printf("Creation du fichier %s\n", buf);
-  while (1) {
-      k = (size > FILENAME_MAX) ? size : FILENAME_MAX;
-      n = fread(buf, sizeof(char), k, fdesc);
-      if (!n) break;
-      fwrite(buf, sizeof(char), n, fd);
-      size -= n;
-      if (!size) break;
-      printf("Encore  %d char\n", size);
-  }
+    peroraison("fopen", "Impossible d'enregistrer le fichier", 7);
+  printf("Creation du fichier %s\n", filename);
+
+  fwrite(source, sizeof(char), strlen(source), fd);
   fclose(fd);
 }
 
 char* isMimeSimple(char* contentType){
+  char* buf = malloc(1024*sizeof(char));
+  char* fileMimePath = "/etc/mime.types";
+  //opening file
+  FILE *fd;
+  fd = fopen(fileMimePath, "r");
+  if (fd == NULL){
+    printf("Impossible d'ouvrir le fichier\n");
+    return NULL;
+  }
+  //reading each line and extracting extension
+  while(fgets(buf, 1024, fd)){
+    //printf("LINE:%s", buf);
+    if(!strncmp(buf, contentType, strlen(contentType))){
+      return extractExtension(contentType, buf);
+    }
+  }
+  fclose(fd);
   return NULL;
 }
 
-char* isMimeMultipart(char* contentType){
+char* extractExtension(char* type, char* source){
+  char* result = malloc(20*sizeof(char));
+  if(!strncmp(type, source, strlen(type))){
+    if(!strncmp("multipart", source, strlen("multipart")))
+      return "multipart";
+    source += strlen(type);
+    //we extract the first extension if present
+    char* tmp; 
+    for(tmp = source; !isalnum(*tmp); tmp++){}
+    char* extensionEnd = index(tmp, ' ');
+    if(extensionEnd == NULL) extensionEnd = index(tmp, '\n');
+      *extensionEnd = 0;
+    strcpy(result, tmp);
+    return result;
+  }
   return NULL;
 }

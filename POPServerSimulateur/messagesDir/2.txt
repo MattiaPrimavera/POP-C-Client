@@ -4,7 +4,6 @@ Received: from client.example.com ([192.0.2.1])
         id <20040120203404.CCCC18555.mx1.example.com@client.example.com>
         for <recipient@example.com>; Tue, 20 Jan 2004 22:34:24 +0200
 From: trinti@ciao.com
-Content-Type: text/plain
 Date: 22/05/13
 Subject: Test message
 To: prof@uni.com

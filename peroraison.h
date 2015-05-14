@@ -61,8 +61,8 @@ extern void sauvegardeMessage(char* contentType, int mexId, char* entetes, char*
 extern char* sauvegardeEnTetes(char* entetes, FILE* fdesc, message* mex);
 extern void sauvegardeCorps(char* reponse, FILE* fdesc);
 extern char* isMimeSimple(char* contentType);
-extern char* isMimeMultipart(char* contentType);
-
+extern char* extractExtension(char* type, char* source);
+extern void SauveContenu(char* extension, int mexId, char* source, char* mode);
 
 //requests functions
 extern int PopMuet(char* requete, int desc, pop* response);
