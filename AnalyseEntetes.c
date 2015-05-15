@@ -2,8 +2,8 @@
 
 void AnalyseEntetes(char* requete, int mexId, FILE *fdesc, pop* response)
 {
-  char entetes[LINELENGTH];
-  
+  //char entetes[LINELENGTH];
+
   //récuperation ou création du message
   message *mex;
   if((mex = findById(mexId, response)) == NULL){
@@ -18,17 +18,23 @@ void AnalyseEntetes(char* requete, int mexId, FILE *fdesc, pop* response)
     mex->date = (char*)malloc(150*sizeof(char));
     printf("LE MESSAGE A BIEN ETE' TROUVE' \n");
   }
+  mex->entetes = malloc(LINELENGTH*sizeof(char));
+  mex->corps = malloc(LINELENGTH*4*sizeof(char));
 
-  char* contentType = sauvegardeEnTetes(entetes, fdesc, mex);
+//  char* contentType = sauvegardeEnTetes(entetes, fdesc, mex);
+  mex->contentType = sauvegardeEnTetes(mex->entetes, fdesc, mex);
+
+  //mex->contentType = malloc(strlen(contentType)*sizeof(char)+1);
   printf("En-tetes trouvees:\nFrom: %s\nDate: %s\n", mex->emetteur, mex->date);
-  printf("Content-Type found :%s\n", contentType);
+  printf("Content-Type found :%s\n", mex->contentType);
   if(!strncmp(requete, "RETR", strlen("RETR"))){
-    char corps[LINELENGTH*4];
-    sauvegardeCorps(corps, fdesc);
-    printf("CORPS:\n%sFINCORPS\n", corps);
-    sauvegardeMessage(contentType, mexId, entetes, corps);
+    //char corps[LINELENGTH*4];
+    sauvegardeCorps(mex->corps, fdesc);
+    printf("CORPS:\n%sFINCORPS\n", mex->corps);
+    printf("ENTETES:\n%sFIN ENTETES\n", mex->entetes);
+    sauvegardeMessage(mex->contentType, mexId, mex->entetes, mex->corps);
   }
-  printf("ENTETES:\n%sFIN ENTETES\n", entetes);
+  //printf("ENTETES:\n%sFIN ENTETES\n", mex->entetes);
 
 }
 

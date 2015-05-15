@@ -31,7 +31,9 @@ struct message{
   int taille;
   char *emetteur;
   char *date;
-  char *contenu;
+  char* entetes;
+  char *corps;
+  char* contentType;
   message* next;
 };
 
@@ -113,9 +115,16 @@ typedef struct {
   liste_de_ligne *dernier;
 } XTable;
 
+typedef struct{
+  Window main;
+  Window scroll;
+  int mexId;
+} RetrWin;
+
 extern Display *dpy;
-extern Window racine, filles[nb_LIGNES*3], loginWin[2];
+extern Window racine, filles[nb_LIGNES*3], loginWin[2], retrWinSub, retrWin;
 extern GC gc;
+extern RetrWin retrWinList[10];
 extern XFontStruct *font;
 extern Window loginFocus;
 extern   Visual *visual; 
@@ -129,6 +138,7 @@ extern void graphicalMain(int argc, char** argv);
 
 
 //displaying windows
+extern void createRetrWindow();
 extern void createXLoginTable();
 extern void createXTable();
 extern void createLoginWindow(Window fen);
@@ -142,7 +152,7 @@ extern void create_td_window(Window fen);
 extern void fEnter(XCrossingEvent *e, XTable *own);
 extern void fLeave(XCrossingEvent *e, XTable *own);
 extern void fKeyPress(XKeyEvent *event, user* user);
-extern void fButtonPress(XButtonEvent *e);
+extern void fButtonPress(XButtonEvent *e, char* option);
 extern void fExpose(XExposeEvent *e, user* user);
 
 

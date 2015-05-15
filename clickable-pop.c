@@ -2,7 +2,8 @@
 
 //GLOBAL VARS
 Display *dpy;
-Window racine, filles[nb_LIGNES*3], loginWin[2], loginFocus;
+Window racine, filles[nb_LIGNES*3], loginWin[2], loginFocus, retrWinSub, retrWin;
+RetrWin retrWinList[10];
 GC gc;
 XFontStruct *font;
 Visual *visual; 
@@ -15,6 +16,8 @@ user admin;
 
 void graphicalMain(int argc, char** argv){
   XEvent e;
+  int i;
+  for(i=0;i<10;i++) retrWinList[i].mexId = -1;
 
   //INSTANTIATION DISPLAY
   if ((dpy = XOpenDisplay(NULL)) == NULL){
@@ -44,7 +47,7 @@ void graphicalMain(int argc, char** argv){
       case KeyPress: fKeyPress(&e.xkey, &admin); break;
       case LeaveNotify: {fLeave(&e.xcrossing, &own); break;}
       case EnterNotify: {fEnter(&e.xcrossing, &own); break;}
-      case ButtonPress: {fButtonPress(&e.xbutton); break;} // TME
+      case ButtonPress: {fButtonPress(&e.xbutton, strdup(argv[3])); break;} // TME
       case Expose: {
         fExpose(&e.xexpose, &admin);
           //char* text ="POMPINONE PERCHE SONO BRAVOOOOOOOOOOOOOOOOOOOOOOO <3<3<3<3<3<3<3<3";
@@ -183,4 +186,74 @@ void createMainWindow(){
   XSelectInput(dpy, racine,ExposureMask | ButtonPressMask | KeyPressMask);
   XMapWindow(dpy, racine); 
   XFlush(dpy); 
+}/*
+void createRetrWindow(int mexId){
+//  message* mex = findById(mexId, &response);
+  retrWinList[mexId].mexId = mexId;
+  printf("CLICKED ON %d RETR MEX\n", mexId);
+
+  //CREATING RETR WINDOW
+  XColor bgcolor;
+  bgcolor.pixel = 25000;
+  screen = DefaultScreen(dpy);
+  retrWinList[mexId].main = XCreateSimpleWindow(dpy, XRootWindow(dpy,screen), 0, 0,
+               500,
+               500,
+               BORDER, 
+               WhitePixel(dpy,DefaultScreen(dpy)),
+               bgcolor.pixel);
+
+  //CREATING SUB-RIGHT-WINDOW
+  XColor subColor;
+  subColor.pixel = 50000;
+  retrWinList[mexId].scroll = XCreateSimpleWindow(dpy, retrWin[mexId].main, 450, 0,
+               50,
+               500,
+               BORDER, 
+               WhitePixel(dpy,DefaultScreen(dpy)),
+               subColor.pixel);  
+
+  //SENSIBILIZATION AND MAPPING
+  XSelectInput(dpy, retrWin[mexId].main, ExposureMask);
+  XSelectInput(dpy, retrWin[mexId].scroll, ExposureMask | ButtonPressMask);
+
+  XMapWindow(dpy, retrWin[mexId].main);
+  XMapWindow(dpy, retrWin[mexId].scroll); 
+  XFlush(dpy); 
+}*/
+void createRetrWindow(int mexId){
+//  message* mex = findById(mexId, &response);
+  retrWinList[mexId].mexId = mexId;
+
+  //CREATING RETR WINDOW
+  XColor bgcolor;
+  bgcolor.pixel = 25000;
+  screen = DefaultScreen(dpy);
+  Window retrWin = XCreateSimpleWindow(dpy, XRootWindow(dpy,screen), 0, 0,
+               500,
+               500,
+               BORDER, 
+               WhitePixel(dpy,DefaultScreen(dpy)),
+               bgcolor.pixel);
+
+  //CREATING SUB-RIGHT-WINDOW
+  XColor subColor;
+  subColor.pixel = 50000;
+  Window retrWinSub = XCreateSimpleWindow(dpy, retrWin, 450, 0,
+               50,
+               500,
+               BORDER, 
+               WhitePixel(dpy,DefaultScreen(dpy)),
+               subColor.pixel);  
+
+  //SENSIBILIZATION AND MAPPING
+  XSelectInput(dpy, retrWin, ExposureMask);
+  XSelectInput(dpy, retrWinSub, ExposureMask | ButtonPressMask);
+
+  XMapWindow(dpy, retrWin);
+  XMapWindow(dpy, retrWinSub); 
+  XFlush(dpy); 
+
+  retrWinList[mexId].main = retrWin;
+  retrWinList[mexId].scroll = retrWinSub;
 }

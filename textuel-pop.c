@@ -124,7 +124,10 @@ int main(int argc, char *argv[])
     }
   }else if(!strcmp(argv[3], "-c")){ //MODE CLICKABLE
     graphicalMain(argc, argv);
+  }else if(!strcmp(argv[3], "-g")){ //MODE GRAPHIQUE
+    graphicalMain(argc, argv);
   }//fin mode clickable
+
  
   return 0;
 } //fin Main

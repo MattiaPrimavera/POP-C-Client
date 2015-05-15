@@ -2,6 +2,21 @@
 
 void fExpose(XExposeEvent *e, user* user)
 {
+  //DRAWING ON RETR WINDOWS IF CREATED
+  //if(retrWin != 0)
+  //  XDrawString(dpy, retrWin, gc, 150, 100, "CIAOOOOOOOOO", strlen("CIAOOOOOOOOO"));
+
+  int i;
+  for(i=0; i<10; i++){
+    if(retrWinList[i].mexId >= 0){ //if one RETRWINDOW is opened
+      message* mex = findById(i, &response);
+      if(mex != NULL){
+        XDrawString(dpy, retrWinList[i].main, gc, 20, 100, mex->entetes, strlen(mex->entetes));
+      }
+    }
+  }
+
+  //DRAWING LOGGIN WINDOW
   DISPLAYTEXT(loginWin[0], 50, 50, "USER: ");
   DISPLAYTEXT(loginWin[1], 50, 50, "PASSWD: ");
 }
@@ -71,19 +86,27 @@ void fKeyPress (XKeyEvent *event, user* user)
   }
 }
 
-void fButtonPress(XButtonEvent *e)
+void fButtonPress(XButtonEvent *e, char* option)
 {
+  //CHANGING THE FOCUS (LOGGIN WINDOW)
   loginFocus = e->window;
+  
+  //QUIT BUTTON EVENT
   if(e->window == filles[own.nb_tr * own.nb_td]) PopQuit("QUIT\n", desc, &response);
-  //look for the right IDENTIFIANT window
+  
+  //ID CLICK EVENT -> RETR REQUEST 
   int i;
   for(i=1; i<own.nb_tr-1; i++){
     if(e->window == filles[i*3]){
       char requete[20];
       sprintf(requete, "RETR %d\n", i);
       PopRetr(requete, desc, &response);
+      if(!strcmp(option, "-g")){
+        printf("\nCREATION RETR WINDOWWWWWWWWWWWWWWWWWWWWWW\n");
+        createRetrWindow(i);
+      }
     }
-  }
+  }//end for
 }
 
 void updateLoginField(char* buffer, user* user){

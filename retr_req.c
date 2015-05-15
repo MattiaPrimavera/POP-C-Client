@@ -1,13 +1,5 @@
 #include "peroraison.h"
-/*
-si l’en-tête Content-Type est absente, l’intégralité du message est sauvé dans un fichier dont le nom 
-est le numéro du message suivi de .txt ;
 
-si l’en-tête Content-Type indique un type MIME simple, l’intégralité du message est sauvé dans un fichier 
-dont le nom est le numéro du message suivi de l’extension canonique de ce type (voir le manuel sur mime.types );
-
-si l’en-tête Content-Type indique un type MIME multipart, on crée un répertoire dont le nom est le numéro du message, et son contenu sont les différentes parties du message, selon le nommage ci-dessus.
-*/
 int PopRetr(char* requete, int desc, pop* response)
 {
 	printf("in PopRetr function\n");
@@ -34,7 +26,7 @@ int PopRetr(char* requete, int desc, pop* response)
 	AnalyseEntetes(requete, mexId, fdesc, response);
 
     //sortie avec erreur
-	return -1;
+	return 0;
 }
 
 /*int PopRetr(char* requete, int desc, pop* response)
