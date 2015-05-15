@@ -1,5 +1,5 @@
 #include "peroraison.h"
-
+/*
 void createXLoginTable(){
   int i, j;
   own.nb_tr = 2;
@@ -78,4 +78,4 @@ void add_cell(XTable *t, liste_de_case *r)
 	   t->dernier->dernier->next = r;
       else t->dernier->premier = r;
       t->dernier->dernier = r;
-}
+}*/

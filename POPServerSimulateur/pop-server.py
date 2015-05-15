@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """
 Usage:
     python pop-server.py serverAddress:port messagePath

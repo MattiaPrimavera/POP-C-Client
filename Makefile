@@ -1,66 +1,14 @@
-#       Universite Pierre & Marie Curie 
-#       Master d'informatique 2010-2011
-#       Architecture des Clients Internet Interactifs
-#       Un client Subversion utilisant Webdav
+########################################################
+#		PRIMAVERA Mattia							   #
+#       Universite Pierre & Marie Curie                #
+#       Un client POP graphique						   #
+########################################################
+OBJDIR := build
 
-
-
-XPDIR=~/Development/expat-2.1.0
-
-# Expat doesn't actually link itself into a library, so we
-# have to refer to the individual objects that make up expat
-
-XP_OBJ = $(XPDIR)/lib/xmltok.o \
-         $(XPDIR)/lib/xmlrole.o \
-         $(XPDIR)/lib/xmlparse.o
-
-XP_INC =  -I$(XPDIR)/lib
-
-################
-# Adds support for checking lexical aspects of namespaces
-XP_NS = -DXML_NS
-
-################
-# Adds support for processing DTDs
-XP_DTD = -DXML_DTD
-
-################
-# Byte order macro
-#This is for little endian machines
-
-XP_BO = -DXML_BYTE_ORDER=12
-
-# and this one is for big endian machines
-
-#XP_BO = -DXML_BYTE_ORDER=21
-
-
-################
-# Define XML_Char as unsigned short
-#XP_UNI = -DXML_UNICODE
-
-################
-# Define XML_Char as wchar_t
-#XP_UNI_WC = -DXML_UNICODE_WCHAR_T
-
-################
-# Uncomment XP_MM if your system has a bcopy function but not memmove
-#XP_MM = -D"memmove(d,s,l)=bcopy(s,d,l)"
-
-
-XP_DEFINES = $(XP_NS) $(XP_DTD) $(XP_BO) $(XP_UNI) $(XP_UNI_WC) $(XP_MM)
-
-################
-# To get debugging, set this to -g
-OPT = -O
-#I=-I/usr/include
-L=/usr/lib/X11
 l=X11
-
 CC = cc -Wall 
-#$(OPT) $(XP_INC) $(XP_DEFINES) $I
 
-B=textuel-pop
+B=main-pop
 C=clickable-pop
 P=peroraison
 I=InitConnexion
@@ -68,18 +16,51 @@ A=AnalyseEntetes
 E=events
 X=xtable
 
-#T=entries.xml
+#POP Requests
+R1=user_req
+#user_req -> USER, PASS and QUIT requests  
+R2=list_req
+R3=top_req
+R4=retr_req
 
-ALLC=$(B).c $(C).c $(P).c $(E).c $(I).c $(X).c user_req.c list_req.c top_req.c retr_req.c $(A).c
-ALLO=$P.o $(C).o $(E).o $(I).o $(X).o user_req.o list_req.o top_req.o retr_req.o $(A).o
+HOST=localhost
+PORT=5002
 
+ALLC=$(B).c $(C).c $(P).c $(E).c $(I).c $(X).c $(A).c $(R1).c $(R2).c $(R3).c $(R4).c 
+#ALLO=$P.o $(C).o $(E).o $(I).o $(X).o $(A).o $(R1).o $(R2).o $(R3).o $(R4).o 
+ALLO= $(OBJDIR)/$P.o \
+	  $(OBJDIR)/$(C).o \
+	  $(OBJDIR)/$(E).o \
+	  $(OBJDIR)/$(I).o \
+	  $(OBJDIR)/$(X).o \
+	  $(OBJDIR)/$(A).o \
+	  $(OBJDIR)/$(R1).o \
+	  $(OBJDIR)/$(R2).o \
+	  $(OBJDIR)/$(R3).o \
+	  $(OBJDIR)/$(R4).o 
 
-$(B):	$(B).c $(ALLO) $(P).h
+#compilation
+
+$(OBJDIR)/$(B):	$(B).c $(ALLO) $(P).h
 	$(CC) $< $(ALLO) -l$l -o $@
 
-%.o:    %.c $(P).h
+$(OBJDIR)/%.o:  %.c $(P).h
 	$(CC) -c $< -o $@ 
-	
 
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+#tests	
+t-test: $(B) 
+	./$(B) $(HOST) $(PORT) -t
+
+c-test: $(B) 
+	./$(B) $(HOST) $(PORT) -c
+
+g-test: $(B) 
+	./$(B) $(HOST) $(PORT) -g
+
+#clean the project dir
 raz:
-	@rm -f *.o $(B) tm.log tm.aux
+	@rm -f *.o $(B)
+	@rm -r build
