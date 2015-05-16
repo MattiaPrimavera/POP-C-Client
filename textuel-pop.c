@@ -92,11 +92,11 @@ int (*actions[27])(char* requete, int desc, pop* response) = {
 };
 
 void textuelMain(int argc, char** argv){
-	char in[LINELENGTH];
+  char in[LINELENGTH];
 
-  	//CONNEXION AU SERVEUR
-  	printf("Connexion sur %s sur le port %d\n", server.serverAddress , server.port);
-  	desc = InitConnexion(server.serverAddress, server.port);
+    //CONNEXION AU SERVEUR
+    printf("Connexion sur %s sur le port %d\n", server.serverAddress , server.port);
+    desc = InitConnexion(server.serverAddress, server.port);
 
     while (fgets(in,LINELENGTH,stdin)){
       //printf("REQUETE: %s\n", in);

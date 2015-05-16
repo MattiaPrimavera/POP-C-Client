@@ -9,27 +9,27 @@ int InitConnexion(char *serveur, int port)
  char *cause = NULL;
 
  struct addrinfo addrHints, *addrResult; // adresses desirees / recuperees
- struct addrinfo *addrTmp;		//adresse temporaire
+ struct addrinfo *addrTmp;    //adresse temporaire
 
  int i;
  int error;
- sprintf(sport,"%i",port);	//conversion du no de port en chaine de char
+ sprintf(sport,"%i",port);  //conversion du no de port en chaine de char
  memset(&addrHints, 0, sizeof(addrHints));     // raz
- addrHints.ai_family = AF_INET;		//famille  TCP/IP ipv4
- addrHints.ai_socktype = SOCK_STREAM;	// avoir une socket de type stream
+ addrHints.ai_family = AF_INET;    //famille  TCP/IP ipv4
+ addrHints.ai_socktype = SOCK_STREAM;  // avoir une socket de type stream
 
  error = getaddrinfo(serveur, sport, &addrHints, &addrResult);
  if (error) {
-		printf("Client Erreur %d getaddrinfo error for host %s %s:\n", error,serveur, sport);
-		printf("\t%s\n",gai_strerror(error));
-		exit (EXIT_FAILURE);
+    printf("Client Erreur %d getaddrinfo error for host %s %s:\n", error,serveur, sport);
+    printf("\t%s\n",gai_strerror(error));
+    exit (EXIT_FAILURE);
  }
  i=0;
  //recherche toute les IP du serveur
  for (addrTmp = addrResult; addrTmp; addrTmp = addrTmp->ai_next) {
    i++;
    printf("  socket no%d:\n\tdomain:%d type:%d protocole:%d\n",i,
-	  addrTmp->ai_family, addrTmp->ai_socktype,addrTmp->ai_protocol);
+    addrTmp->ai_family, addrTmp->ai_socktype,addrTmp->ai_protocol);
    //ai_proto=6 pour TCp alors  AFINET pour ipv4 par default
    sin = (void *)addrTmp->ai_addr;
    if (inet_ntop(AF_INET, &sin->sin_addr, ascii_buffer, sizeof(ascii_buffer)) == NULL)

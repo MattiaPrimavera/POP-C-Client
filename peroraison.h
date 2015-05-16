@@ -2,14 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdlib.h>		/* pour EXIT_SUCCESS, EXIT_FAILURE */
-#include <sys/socket.h>		/* pour socket */
-#include <netinet/in.h>		/* pour sockaddr_in et INET_ADDRSTRLEN */
-#include <netdb.h>		/* pour gethostbyname */
-#include <unistd.h>		/* pour read /write */
-#include <fcntl.h>		/* pour open */
-#include <arpa/inet.h>		/* pour inet_aton */
-#include <time.h>		/* clair */
+#include <stdlib.h>    /* pour EXIT_SUCCESS, EXIT_FAILURE */
+#include <sys/socket.h>    /* pour socket */
+#include <netinet/in.h>    /* pour sockaddr_in et INET_ADDRSTRLEN */
+#include <netdb.h>    /* pour gethostbyname */
+#include <unistd.h>    /* pour read /write */
+#include <fcntl.h>    /* pour open */
+#include <arpa/inet.h>    /* pour inet_aton */
+#include <time.h>    /* clair */
 #include <ctype.h> /* pour isalpha et isdigit */
 #include <errno.h> /* pour perror et errno */
 #include <ctype.h>
