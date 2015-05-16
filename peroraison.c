@@ -8,9 +8,3 @@ void peroraison(char *f, char *m, int n)
 	perror(m);
 	exit(n);
 }
-
-void printAtts(const char** atts)
-{
-  int j;
-  for (j = 0; atts[j]; j++) printf("atts[%d]->%s\n", j, atts[j]);
-}

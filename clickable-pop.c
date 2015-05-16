@@ -11,7 +11,7 @@ int screen;
 int depth; 
 XSetWindowAttributes attributes; 
 XFontStruct *fontinfo; 
-XTable own;
+GridWinInfo own;
 user admin;
 
 void graphicalMain(int argc, char** argv){
@@ -172,10 +172,10 @@ void createMainWindow(){
                bgcolor.pixel);
   
   //CREATING GRAPHIC CONTEXT
-  fontinfo = XLoadQueryFont(dpy, "-*-*-*-*-*-*-20-*-*-*-*-*-*-*");
-  gr_values.font =   fontinfo->fid; 
-  gr_values.function =   GXcopy; 
-  gr_values.plane_mask = AllPlanes; 
+    fontinfo = XLoadQueryFont(dpy, "-*-*-*-*-*-*-20-*-*-*-*-*-*-*");
+    gr_values.font =   fontinfo->fid; 
+    gr_values.function =   GXcopy; 
+    gr_values.plane_mask = AllPlanes; 
   gr_values.foreground = BlackPixel(dpy,screen); 
   gr_values.background = WhitePixel(dpy,screen); 
   gc= XCreateGC(dpy, racine, 
@@ -221,39 +221,3 @@ void createRetrWindow(int mexId){
   XMapWindow(dpy, retrWin[mexId].scroll); 
   XFlush(dpy); 
 }*/
-void createRetrWindow(int mexId){
-//  message* mex = findById(mexId, &response);
-  retrWinList[mexId].mexId = mexId;
-
-  //CREATING RETR WINDOW
-  XColor bgcolor;
-  bgcolor.pixel = 25000;
-  screen = DefaultScreen(dpy);
-  Window retrWin = XCreateSimpleWindow(dpy, XRootWindow(dpy,screen), 0, 0,
-               500,
-               500,
-               BORDER, 
-               WhitePixel(dpy,DefaultScreen(dpy)),
-               bgcolor.pixel);
-
-  //CREATING SUB-RIGHT-WINDOW
-  XColor subColor;
-  subColor.pixel = 50000;
-  Window retrWinSub = XCreateSimpleWindow(dpy, retrWin, 450, 0,
-               50,
-               500,
-               BORDER, 
-               WhitePixel(dpy,DefaultScreen(dpy)),
-               subColor.pixel);  
-
-  //SENSIBILIZATION AND MAPPING
-  XSelectInput(dpy, retrWin, ExposureMask);
-  XSelectInput(dpy, retrWinSub, ExposureMask | ButtonPressMask);
-
-  XMapWindow(dpy, retrWin);
-  XMapWindow(dpy, retrWinSub); 
-  XFlush(dpy); 
-
-  retrWinList[mexId].main = retrWin;
-  retrWinList[mexId].scroll = retrWinSub;
-}

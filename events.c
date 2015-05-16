@@ -21,9 +21,9 @@ void fExpose(XExposeEvent *e, user* user)
   DISPLAYTEXT(loginWin[1], 50, 50, "PASSWD: ");
 }
 
-void fEnter(XCrossingEvent *e, XTable *own){ }
+void fEnter(XCrossingEvent *e, GridWinInfo *own){ }
 
-void fLeave(XCrossingEvent *e, XTable *own){ }
+void fLeave(XCrossingEvent *e, GridWinInfo *own){ }
 
 void fKeyPress (XKeyEvent *event, user* user)
 {
@@ -37,12 +37,15 @@ void fKeyPress (XKeyEvent *event, user* user)
   if(keysym == XK_Return){
     printf("retour chariot\n");
     if((!passwdOK && userOk) || (passwdOK && !userOk)){
+      printf("Connexion sur %s sur le port %d\n", server.serverAddress, server.port);
+      desc = InitConnexion(server.serverAddress, server.port);  
       if(sendLogin(user) != 0){
         restartLogin(user);
         passwdOK = FALSE; userOk = FALSE;
       }
-      else
+      else{
         showListWindow();
+      }
     }
     if(loginFocus == loginWin[0]){
       printf("Setting User True\n");
@@ -60,16 +63,16 @@ void fKeyPress (XKeyEvent *event, user* user)
   else if ((keysym >= XK_Left) && (keysym <= XK_Down)){
     printf("Arrow Key:-");
     switch(keysym){
-      case XK_Left: printf("Left\n");break;
       case XK_Up:
       if(loginFocus != loginWin[0]) loginFocus = loginWin[0]; 
       printf("Up\n");
       break;
-      case XK_Right: printf("Right\n");break;
       case XK_Down: 
       if(loginFocus != loginWin[1]) loginFocus = loginWin[1];
       printf("Down\n");
       break; 
+      default:
+        break;
     }
   } //DELETE KEYS
   else if ((keysym == XK_BackSpace) || (keysym == XK_Delete)){

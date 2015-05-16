@@ -42,9 +42,18 @@ typedef struct {
   message* listeMessages;
 } pop;
 
+typedef struct{
+  char* serverAddress;
+  int port;
+} server_info;
+
 //textuel global variables
 extern int desc;
+//extern int port;
+extern server_info server;
 extern pop response;
+
+extern void textuelMain(int argc, char** argv);
 
 //textual utilities
 extern void cleanPop(pop* response);
@@ -89,7 +98,7 @@ typedef struct{
   char password[20];
 } user;
 
-typedef struct desc_case {
+/*typedef struct desc_case {
   int colspan;
   int rowspan;
   char *onmouseover;
@@ -105,15 +114,15 @@ typedef struct desc_ligne {
   struct desc_case * dernier;
   struct desc_ligne * next;
 } liste_de_ligne;
-
+*/
 typedef struct {
   int nb_tr;
   int nb_td;
   int width;
   int height;
-  liste_de_ligne *premier;
-  liste_de_ligne *dernier;
-} XTable;
+//  liste_de_ligne *premier;
+//  liste_de_ligne *dernier;
+} GridWinInfo;
 
 typedef struct{
   Window main;
@@ -132,7 +141,7 @@ extern  int screen;
 extern  int depth; 
 extern       XSetWindowAttributes attributes; 
 extern XFontStruct *fontinfo; 
-extern XTable own;
+extern GridWinInfo own;
 
 extern void graphicalMain(int argc, char** argv);
 
@@ -140,28 +149,29 @@ extern void graphicalMain(int argc, char** argv);
 //displaying windows
 extern void createRetrWindow();
 extern void createXLoginTable();
-extern void createXTable();
 extern void createLoginWindow(Window fen);
-extern void createTableLine(void *data);
-extern void createTableCell(void *data);
-extern void add_line(XTable *t, liste_de_ligne *r);
-extern void add_cell(XTable *t, liste_de_case *r);
-extern void create_td_window(Window fen);
+extern void createMainWindow();
+extern void createListWindow();
 
 //managing events
-extern void fEnter(XCrossingEvent *e, XTable *own);
-extern void fLeave(XCrossingEvent *e, XTable *own);
+extern void fEnter(XCrossingEvent *e, GridWinInfo *own);
+extern void fLeave(XCrossingEvent *e, GridWinInfo *own);
 extern void fKeyPress(XKeyEvent *event, user* user);
 extern void fButtonPress(XButtonEvent *e, char* option);
 extern void fExpose(XExposeEvent *e, user* user);
 
+//utilities
+extern void showListWindow();
 
 extern void decoratingListWindow();
-extern void createMainWindow();
-extern void createListWindow();
 extern void updateLoginField(char* buffer, user* user);
 extern void delOneLoginField(char* buffer, user* user);
 extern int sendLogin(user* user);
-void restartLogin();
-void showListWindow();
+extern void restartLogin();
 
+//extern void createXTable();
+//extern void createTableLine(void *data);
+//extern void createTableCell(void *data);
+//extern void add_line(XTable *t, liste_de_ligne *r);
+//extern void add_cell(XTable *t, liste_de_case *r);
+//extern void create_td_window(Window fen);
