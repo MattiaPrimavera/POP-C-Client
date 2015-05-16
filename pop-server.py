@@ -1,8 +1,12 @@
-"""pypopper: a file-based pop3 server
+#!/usr/bin/python
+
+"""
+pypopper: a file-based pop3 server
 
 Useage:
     python pypopper.py <port> <path_to_message_file>
 """
+
 import logging
 import os
 import socket
@@ -13,12 +17,16 @@ logging.basicConfig(format="%(name)s %(levelname)s - %(message)s")
 log = logging.getLogger("pypopper")
 log.setLevel(logging.INFO)
 
+
 class ChatterboxConnection(object):
     END = "\n"
+
     def __init__(self, conn):
         self.conn = conn
+
     def __getattr__(self, name):
         return getattr(self.conn, name)
+
     def sendall(self, data, END=END):
         if len(data) < 50:
             log.debug("send: %r", data)
@@ -26,6 +34,7 @@ class ChatterboxConnection(object):
             log.debug("send: %r...", data[:50])
         data += END
         self.conn.sendall(data)
+
     def recvall(self, END=END):
         while True:
             chunk = self.conn.recv(4096)
@@ -33,14 +42,15 @@ class ChatterboxConnection(object):
                 break
         return chunk
 
-"""
-class MexDatabase():
-    def __init__(self, databasePath):
 
-        self.messageList = os.listdir(databasePath)
-"""
+#class MexDatabase():
+#
+#    def __init__(self, databasePath):
+#        self.messageList = os.listdir(databasePath)
+
 
 class Message(object):
+
     def __init__(self, filename):
         msg = open(filename, "r")
         try:
@@ -51,15 +61,19 @@ class Message(object):
         finally:
             msg.close()
 
+
 def handleUser(data, msg):
     return "+OK user accepted"
+
 
 def handlePass(data, msg):
     return "+OK pass accepted"
 
+
 def handleList(data, msg):
     print "+OK 1 messages ({0} octets)\n1 {1}\n.".format(msg.size, msg.size)
     return "+OK 1 messages (%i octets)\n1 %i\n." % (msg.size, msg.size)
+
 
 def handleTop(data, msg):
     cmd, num, lines = data.split()
@@ -68,15 +82,19 @@ def handleTop(data, msg):
     text = msg.top + "\r\n\r\n" + "\r\n".join(msg.bot[:lines])
     return "+OK top of message follows\r\n%s\r\n." % text
 
+
 def handleRetr(data, msg):
     log.info("message sent")
     return "+OK %i octets\r\n%s\r\n." % (msg.size, msg.data)
 
+
 def handleDele(data, msg):
     return "+OK message 1 deleted"
 
+
 def handleNoop(data, msg):
     return "+OK"
+
 
 def handleQuit(data, msg):
     return "+OK pypopper POP3 server signing off"
@@ -90,6 +108,7 @@ dispatch = dict(
     NOOP=handleNoop,
     QUIT=handleQuit,
 )
+
 
 def serve(host, port, filename):
     assert os.path.exists(filename)
@@ -110,7 +129,7 @@ def serve(host, port, filename):
                 conn = ChatterboxConnection(conn)
                 #conn.sendall("+OK pypopper file-based pop3 server ready")
                 while True:
-                    data = conn.recvall()#[:-1]
+                    data = conn.recvall()  # [:-1]
                     print "data contains: {0}".format(data)
                     log.debug('data contains: %s', data)
                     command = data.split(None, 1)[0]
