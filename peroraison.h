@@ -2,31 +2,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdlib.h>		/* pour EXIT_SUCCESS, EXIT_FAILURE */
-#include <sys/socket.h>		/* pour socket */
-#include <netinet/in.h>		/* pour sockaddr_in et INET_ADDRSTRLEN */
-#include <netdb.h>		/* pour gethostbyname */
-#include <unistd.h>		/* pour read /write */
-#include <fcntl.h>		/* pour open */
-#include <arpa/inet.h>		/* pour inet_aton */
-#include <time.h>		/* clair */
-#include <ctype.h> /* pour isalpha et isdigit */
-#include <errno.h> /* pour perror et errno */
+#include <stdlib.h>     /* pour EXIT_SUCCESS, EXIT_FAILURE */
+#include <sys/socket.h> /* pour socket */
+#include <netinet/in.h> /* pour sockaddr_in et INET_ADDRSTRLEN */
+#include <netdb.h>      /* pour gethostbyname */
+#include <unistd.h>     /* pour read /write */
+#include <fcntl.h>      /* pour open */
+#include <arpa/inet.h>  /* pour inet_aton */
+#include <time.h>       /* clair */
+#include <ctype.h>      /* pour isalpha et isdigit */
+#include <errno.h>      /* pour perror et errno */
 #include <ctype.h>
 
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/Xutil.h>
-#include <X11/cursorfont.h> 
+#include <X11/cursorfont.h>
 #include <X11/keysym.h>
 
-#define hash_balise(b) ((('a' <= *(b)) && (*(b) <= 'z')) ? (*(b)-'a'+1) : 0)
+#define hash_balise(b) ((('a' <= *(b)) && (*(b) <= 'z')) ? (*(b) - 'a' + 1) : 0)
 #define LINELENGTH 1024
 #define TRUE 1
 #define FALSE 0
 
 typedef struct message message;
-struct message{
+struct message {
   int id;
   int taille;
   char *emetteur;
@@ -42,7 +42,7 @@ typedef struct {
   message* listeMessages;
 } pop;
 
-typedef struct{
+typedef struct {
   char* serverAddress;
   int port;
 } server_info;
@@ -63,9 +63,9 @@ extern void addMessage(pop* response, message* mex);
 extern void envoieServeur(char* requete, int desc);
 extern int reponsePositive(FILE* fdesc, char* firstLine);
 extern int verifieSyntaxe(char* requete, char* controle);
-extern int (*actions[27])(char* requete, int desc, pop* response);
+extern int(*actions[27])(char* requete, int desc, pop * response);
 extern int main(int argc, char *argv[]);
-extern void peroraison (char *f, char *m, int n);
+extern void peroraison(char *f, char *m, int n);
 extern int InitConnexion(char *serveur, int port);
 extern void AnalyseEntetes(char* requete, int mexId, FILE *fdesc, pop* response);
 extern void sauvegardeMessage(char* contentType, int mexId, char* entetes, char* corps);
@@ -86,19 +86,19 @@ extern int PopRetr(char* requete, int desc, pop* response);
 
 
 //GRAPHIC PART
-#define DISPLAYTEXT(win, x, y, text) \
- XDrawString(dpy, win, gc, x, y, text, strlen(text));
+#define DISPLAYTEXT(win, x, y, text) XDrawString(dpy, win, gc, x, y, text, strlen(text));
 
 #define MARGIN 10
 #define BORDER 2
 #define nb_LIGNES 10
 
-typedef struct{
+typedef struct {
   char name[20];
   char password[20];
 } user;
 
-/*typedef struct desc_case {
+/*
+typedef struct desc_case {
   int colspan;
   int rowspan;
   char *onmouseover;
@@ -115,32 +115,33 @@ typedef struct desc_ligne {
   struct desc_ligne * next;
 } liste_de_ligne;
 */
+
 typedef struct {
   int nb_tr;
   int nb_td;
   int width;
   int height;
-//  liste_de_ligne *premier;
-//  liste_de_ligne *dernier;
+  //liste_de_ligne *premier;
+  //liste_de_ligne *dernier;
 } GridWinInfo;
 
-typedef struct{
+typedef struct {
   Window main;
   Window scroll;
   int mexId;
 } RetrWin;
 
 extern Display *dpy;
-extern Window racine, filles[nb_LIGNES*3], loginWin[2], retrWinSub, retrWin;
+extern Window racine, filles[nb_LIGNES * 3], loginWin[2], retrWinSub, retrWin;
 extern GC gc;
 extern RetrWin retrWinList[10];
 extern XFontStruct *font;
 extern Window loginFocus;
-extern   Visual *visual; 
-extern  int screen;
-extern  int depth; 
-extern       XSetWindowAttributes attributes; 
-extern XFontStruct *fontinfo; 
+extern Visual *visual;
+extern int screen;
+extern int depth;
+extern XSetWindowAttributes attributes;
+extern XFontStruct *fontinfo;
 extern GridWinInfo own;
 
 extern void graphicalMain(int argc, char** argv);
