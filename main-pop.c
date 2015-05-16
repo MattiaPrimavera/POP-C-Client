@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
   if (argc < 4)
     peroraison("argc", "nombre d'arguments incorrect", 3);
 
-  if (!sscanf(argv[2],"%d",&(server.port))) 
+  if (!sscanf(argv[2],"%d",&(server.port)))
     peroraison("sscanf", "argument incorrect", 4);
 
   if(strcmp(argv[3], "-t") && strcmp(argv[3], "-c") && strcmp(argv[3], "-g"))
@@ -30,4 +30,3 @@ int main(int argc, char *argv[])
 
   return 0;
 } //fin Main
-

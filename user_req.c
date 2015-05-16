@@ -20,7 +20,7 @@ int PopUser(char* requete, int desc, pop* response)
    printf("REPONSE:%s\n", reponse);
 
    return 0;
-}  
+}
 
 int PopPass(char* requete, int desc, pop* response)
 {
@@ -35,9 +35,9 @@ int PopPass(char* requete, int desc, pop* response)
    printf("%s\n", reponse);
 
    if(reponsePositive(fdesc, reponse) != 0) return -1;
-   
+
    return 0;
-}  
+}
 
 int PopQuit(char* requete, int desc, pop* response)
 {
@@ -57,11 +57,8 @@ int PopQuit(char* requete, int desc, pop* response)
    printf("Vous avez choisi de Quitter l'application...\n");
    printf("Merci pour avoir utiliser notre Client POP.\n");
    exit (EXIT_SUCCESS);
-}  
+}
 
 int PopMuet(char* requete, int desc, pop* response){
   return -1;
 }
-
-
-

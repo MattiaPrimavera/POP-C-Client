@@ -38,7 +38,7 @@ void fKeyPress (XKeyEvent *event, user* user)
     printf("retour chariot\n");
     if((!passwdOK && userOk) || (passwdOK && !userOk)){
       printf("Connexion sur %s sur le port %d\n", server.serverAddress, server.port);
-      desc = InitConnexion(server.serverAddress, server.port);  
+      desc = InitConnexion(server.serverAddress, server.port);
       if(sendLogin(user) != 0){
         restartLogin(user);
         passwdOK = FALSE; userOk = FALSE;
@@ -64,13 +64,13 @@ void fKeyPress (XKeyEvent *event, user* user)
     printf("Arrow Key:-");
     switch(keysym){
       case XK_Up:
-      if(loginFocus != loginWin[0]) loginFocus = loginWin[0]; 
+      if(loginFocus != loginWin[0]) loginFocus = loginWin[0];
       printf("Up\n");
       break;
-      case XK_Down: 
+      case XK_Down:
       if(loginFocus != loginWin[1]) loginFocus = loginWin[1];
       printf("Down\n");
-      break; 
+      break;
       default:
         break;
     }
@@ -82,7 +82,7 @@ void fKeyPress (XKeyEvent *event, user* user)
     updateLoginField(buffer, user);
   } //BREAK CARACTER
   else if (keysym == XK_Break) {
-    XCloseDisplay(dpy); 
+    XCloseDisplay(dpy);
     exit (0);
   }else{
     printf("Not handled\n");
@@ -93,11 +93,11 @@ void fButtonPress(XButtonEvent *e, char* option)
 {
   //CHANGING THE FOCUS (LOGGIN WINDOW)
   loginFocus = e->window;
-  
+
   //QUIT BUTTON EVENT
   if(e->window == filles[own.nb_tr * own.nb_td]) PopQuit("QUIT\n", desc, &response);
-  
-  //ID CLICK EVENT -> RETR REQUEST 
+
+  //ID CLICK EVENT -> RETR REQUEST
   int i;
   for(i=1; i<own.nb_tr-1; i++){
     if(e->window == filles[i*3]){
@@ -147,7 +147,7 @@ void delOneLoginField(char* buffer, user* user){
     int i;
     for(i=0; i<strlen(user->password); i++) strcat(affichage, "*");
       DISPLAYTEXT(loginWin[1], 50, 50, affichage);
-  } 
+  }
 }
 
 int sendLogin(user* user){
@@ -165,7 +165,7 @@ int sendLogin(user* user){
   //if(response.nombreMessages == 0) return -1;
   //PopTop("TOP 1 0\n", desc, &response);
 
-  
+
   int i;
   for(i=0; i<response.nombreMessages-1; i++){
     sprintf(request, "TOP %d 0\n", i);
@@ -173,7 +173,7 @@ int sendLogin(user* user){
     //if(PopTop(request, desc, &response) != 0)
     //  return -1;
   }
-  
+
   return 0;
 }
 
@@ -183,7 +183,7 @@ void restartLogin(user* user){
 
   DISPLAYTEXT(loginWin[0], 50, 50, "USER: ");
   bzero(user->name, 20);
-  DISPLAYTEXT(loginWin[1], 50, 50, "PASSWD: ");  
+  DISPLAYTEXT(loginWin[1], 50, 50, "PASSWD: ");
   bzero(user->password, 20);
 
   XMapWindow(dpy, loginWin[0]);

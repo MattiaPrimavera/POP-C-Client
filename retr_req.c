@@ -72,5 +72,3 @@ int PopRetr(char* requete, int desc, pop* response)
     //sortie avec erreur
 	return -1;
 }*/
-
-

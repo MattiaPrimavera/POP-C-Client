@@ -72,7 +72,7 @@ def handleUser(data, msgList):
     userName = "moi"
     request, arg = data.split(" ", 1)
     print "handleUser, arg:{0}".format(arg)
-    if '\n' in arg: 
+    if '\n' in arg:
         arg = arg[:-1]
     if(arg == userName):
         return "+OK user accepted"
@@ -158,7 +158,7 @@ def serve(host, port, databasePath):
         else:
             hostname = "localhost"
         log.info("pypopper POP3 serving '%s' on %s:%s", databasePath, hostname, port)
-        while True: 
+        while True:
             sock.listen(1)
             conn, addr = sock.accept()
             log.debug('Connected by %s', addr)

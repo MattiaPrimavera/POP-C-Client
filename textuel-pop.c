@@ -31,7 +31,7 @@ message* findById(int id, pop* response){
     if(tmp->id == id) return tmp;
     tmp = tmp->next;
   }
-  printf("AUCUN ID NE CORRESPOND!!!\n\n\n"); 
+  printf("AUCUN ID NE CORRESPOND!!!\n\n\n");
   return NULL;
 }
 
@@ -62,11 +62,11 @@ void envoieServeur(char* requete, int desc){
 
 int reponsePositive(FILE* fdesc, char* firstLine){
   fgets(firstLine, LINELENGTH, fdesc);
-  
+
   if (!strncmp("+OK", firstLine, strlen("+OK")))
     return 0; //reponse +OK
-  else{   
-    return -1; //reponse -ERR 
+  else{
+    return -1; //reponse -ERR
   }
 }
 
@@ -93,12 +93,12 @@ int (*actions[27])(char* requete, int desc, pop* response) = {
 
 void textuelMain(int argc, char** argv){
 	char in[LINELENGTH];
-  	
+
   	//CONNEXION AU SERVEUR
   	printf("Connexion sur %s sur le port %d\n", server.serverAddress , server.port);
-  	desc = InitConnexion(server.serverAddress, server.port);    
+  	desc = InitConnexion(server.serverAddress, server.port);
 
-    while (fgets(in,LINELENGTH,stdin)){ 
+    while (fgets(in,LINELENGTH,stdin)){
       //printf("REQUETE: %s\n", in);
       char sep = tolower(in[0]);
       printf("%d\n", actions[hash_balise(&sep)](in, desc, &response));

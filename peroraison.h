@@ -17,7 +17,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/Xutil.h>
-#include <X11/cursorfont.h> 
+#include <X11/cursorfont.h>
 #include <X11/keysym.h>
 
 #define hash_balise(b) ((('a' <= *(b)) && (*(b) <= 'z')) ? (*(b)-'a'+1) : 0)
@@ -136,11 +136,11 @@ extern GC gc;
 extern RetrWin retrWinList[10];
 extern XFontStruct *font;
 extern Window loginFocus;
-extern   Visual *visual; 
+extern   Visual *visual;
 extern  int screen;
-extern  int depth; 
-extern       XSetWindowAttributes attributes; 
-extern XFontStruct *fontinfo; 
+extern  int depth;
+extern       XSetWindowAttributes attributes;
+extern XFontStruct *fontinfo;
 extern GridWinInfo own;
 
 extern void graphicalMain(int argc, char** argv);

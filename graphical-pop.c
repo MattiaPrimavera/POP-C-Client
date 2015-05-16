@@ -11,7 +11,7 @@ void createRetrWindow(int mexId){
   Window retrWin = XCreateSimpleWindow(dpy, XRootWindow(dpy,screen), 0, 0,
                500,
                500,
-               BORDER, 
+               BORDER,
                WhitePixel(dpy,DefaultScreen(dpy)),
                bgcolor.pixel);
 
@@ -21,17 +21,17 @@ void createRetrWindow(int mexId){
   Window retrWinSub = XCreateSimpleWindow(dpy, retrWin, 450, 0,
                50,
                500,
-               BORDER, 
+               BORDER,
                WhitePixel(dpy,DefaultScreen(dpy)),
-               subColor.pixel);  
+               subColor.pixel);
 
   //SENSIBILIZATION AND MAPPING
   XSelectInput(dpy, retrWin, ExposureMask);
   XSelectInput(dpy, retrWinSub, ExposureMask | ButtonPressMask);
 
   XMapWindow(dpy, retrWin);
-  XMapWindow(dpy, retrWinSub); 
-  XFlush(dpy); 
+  XMapWindow(dpy, retrWinSub);
+  XFlush(dpy);
 
   retrWinList[mexId].main = retrWin;
   retrWinList[mexId].scroll = retrWinSub;

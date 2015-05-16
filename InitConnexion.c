@@ -8,19 +8,19 @@ int InitConnexion(char *serveur, int port)
  char sport[255];
  char *cause = NULL;
 
- struct addrinfo addrHints, *addrResult; // adresses desirees / recuperees 
+ struct addrinfo addrHints, *addrResult; // adresses desirees / recuperees
  struct addrinfo *addrTmp;		//adresse temporaire
-	
+
  int i;
  int error;
  sprintf(sport,"%i",port);	//conversion du no de port en chaine de char
- memset(&addrHints, 0, sizeof(addrHints));     // raz 
+ memset(&addrHints, 0, sizeof(addrHints));     // raz
  addrHints.ai_family = AF_INET;		//famille  TCP/IP ipv4
  addrHints.ai_socktype = SOCK_STREAM;	// avoir une socket de type stream
- 
+
  error = getaddrinfo(serveur, sport, &addrHints, &addrResult);
  if (error) {
-		printf("Client Erreur %d getaddrinfo error for host %s %s:\n", error,serveur, sport); 
+		printf("Client Erreur %d getaddrinfo error for host %s %s:\n", error,serveur, sport);
 		printf("\t%s\n",gai_strerror(error));
 		exit (EXIT_FAILURE);
  }
@@ -52,11 +52,10 @@ int InitConnexion(char *serveur, int port)
    }
    break;
   }  /* okay we got one */
- 
+
  if (maSocket < 0) {/*NOTREACHED*/
    printf("Erreur %s", cause);
    peroraison("socket ou connect","erreur de connection ou de socket", 1);}
 
  return maSocket;
 }
-

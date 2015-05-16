@@ -45,12 +45,12 @@ char* sauvegardeEnTetes(char* entetes, FILE* fdesc, message* mex){
 
   char* reponse = entetes;
   //Analyse En-tetes
-  while (fgets(reponse, LINELENGTH, fdesc)){    
+  while (fgets(reponse, LINELENGTH, fdesc)){
     //conditions d'arret
     if(!strncmp(".", reponse, strlen("."))){
       printf("\nfin entetes ...\n");
       break;
-    }//le corps du message va suivre 
+    }//le corps du message va suivre
     if(!strncmp("\n", reponse, strlen("\n"))){
       printf("\nfin entetes ...\n");
       break;
@@ -109,7 +109,7 @@ void sauvegardeMessage(char* contentType, int mexId, char* entetes, char* corps)
       printf("WRITING SIMPLE MIME FILE\n");
       SauveContenu(result, mexId, entetes, "w");
       SauveContenu(result, mexId, corps, "a");
-    }  
+    }
   }
 }
 
@@ -119,7 +119,7 @@ void SauveContenu(char* extension, int mexId, char* source, char* mode)
   FILE *fd;
   sprintf(filename, "%d.%s", mexId, extension);
   fd = fopen(filename, mode);
-  
+
   if (fd == NULL)
     peroraison("fopen", "Impossible d'enregistrer le fichier", 7);
   printf("Creation du fichier %s\n", filename);
@@ -156,7 +156,7 @@ char* extractExtension(char* type, char* source){
       return "multipart";
     source += strlen(type);
     //we extract the first extension if present
-    char* tmp; 
+    char* tmp;
     for(tmp = source; !isalnum(*tmp); tmp++){}
     char* extensionEnd = index(tmp, ' ');
     if(extensionEnd == NULL) extensionEnd = index(tmp, '\n');

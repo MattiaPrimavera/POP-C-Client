@@ -38,13 +38,13 @@ int PopList(char* requete, int desc, pop* response)
 }
 
 /*    while (fgets(reponse, LINELENGTH, fdesc)){
-    	if(sscanf(buf, "Last-Modified: %s\n", date)){  
+    	if(sscanf(buf, "Last-Modified: %s\n", date)){
 	if(sscanf(reponse, "+OK %d%s\n", &response->nombreMessages, reponse))
 		printf("NUMERO MEX: %d\n", response->nombreMessages);
 
     }
 
-	
+
 	printf("%s\n", reponse);
 
 	if(reponsePositive(fdesc, reponse) != 0) return -1;
