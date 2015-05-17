@@ -1,0 +1,57 @@
+Return-Path: sender@example.com
+Received: from client.example.com ([192.0.2.1])
+        by mx1.example.com with ESMTP
+        id <20040120203404.CCCC18555.mx1.example.com@client.example.com>
+        for <recipient@example.com>; Tue, 20 Jan 2004 22:34:24 +0200
+From: mattia@gmail.com
+Subject: Test message
+Date: 22/01/13
+To: frillo@example.com
+Message-Id: <20040120203404.CCCC18555.mx1.example.com@client.example.com>
+
+Questo è il messaggio numero 1
+.
+**//**
+Return-Path: sender@example.com
+Received: from client.example.com ([192.0.2.1])
+        by mx1.example.com with ESMTP
+        id <20040120203404.CCCC18555.mx1.example.com@client.example.com>
+        for <recipient@example.com>; Tue, 20 Jan 2004 22:34:24 +0200
+From: trinti@ciao.com
+Date: 22/05/13
+Subject: Test message
+To: prof@uni.com
+Message-Id: <20040120203404.CCCC18555.mx1.example.com@client.example.com>
+
+Bonjour Monsieur, voila ci-joint mon CV
+.
+**//**
+Return-Path: sender@example.com
+Received: from client.example.com ([192.0.2.1])
+        by mx1.example.com with ESMTP
+        id <20040120203404.CCCC18555.mx1.example.com@client.example.com>
+        for <recipient@example.com>; Tue, 20 Jan 2004 22:34:24 +0200
+From: paris@rome.italie
+Content-Type: text/plain
+Subject: Test message
+Date: 22/01/14
+To: ciao@gmail.us
+Message-Id: <20040120203404.CCCC18555.mx1.example.com@client.example.com>
+
+This is a test message.
+.
+**//**
+Return-Path: sender@example.com
+Received: from client.example.com ([192.0.2.1])
+        by mx1.example.com with ESMTP
+        id <20040120203404.CCCC18555.mx1.example.com@client.example.com>
+        for <recipient@example.com>; Tue, 20 Jan 2004 22:34:24 +0200
+From: sender@example.com
+Date: 22/01/13
+Content-Type: text/plain
+Subject: Test message
+To: recipient@example.com
+Message-Id: <20040120203404.CCCC18555.mx1.example.com@client.example.com>
+
+This is a test message.
+.

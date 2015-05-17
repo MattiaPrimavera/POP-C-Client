@@ -192,6 +192,21 @@ def serve(host, port, databasePath):
         sock.shutdown(socket.SHUT_RDWR)
         sock.close()
 
+def createDatabase(databasePath):
+    contenu = open(databasePath).read()
+    messages = contenu.split("**//**\n")
+
+    directory = "messagesDir"
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    for (i, mex) in enumerate(messages):
+        #print mex
+        filePath = directory + "/" + str(i+1) + ".txt" 
+        print "filePath: " + filePath
+        f = open(filePath, "w")
+        f.write(mex)
+        
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print "USAGE: [<host>:]<port> <databasePath>"
@@ -207,6 +222,7 @@ if __name__ == "__main__":
         except Exception:
             print "Unknown port:", port
         else:
+            createDatabase("database.txt")
             if os.path.exists(databasePath):
                 serve(host, port, databasePath)
             else:

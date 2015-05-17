@@ -1,1 +1,8 @@
-When making new LIST request I use CleanPop function, still need to clear memory of past messages ... free(pointer)
+Pour lancer les tests
+
+make t-test-1 //test automatiques, mode textuel
+make t-test-2
+
+make c-test //mode cliquable
+
+make g-test //mode graphique
