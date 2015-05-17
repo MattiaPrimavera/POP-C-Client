@@ -1,4 +1,4 @@
-#include "peroraison.h"
+#include "pop.h"
 
 //GLOBAL VARS
 Display *dpy;
@@ -50,8 +50,6 @@ void graphicalMain(int argc, char** argv){
       case ButtonPress: {fButtonPress(&e.xbutton, strdup(argv[3])); break;} // TME
       case Expose: {
         fExpose(&e.xexpose, &admin);
-          //char* text ="POMPINONE PERCHE SONO BRAVOOOOOOOOOOOOOOOOOOOOOOO <3<3<3<3<3<3<3<3";
-          //DISPLAYTEXT(loginWin[0], 50, 50, text);
         break;
       }
       default: break;
@@ -173,7 +171,7 @@ void createMainWindow(){
   
   //CREATING GRAPHIC CONTEXT
     fontinfo = XLoadQueryFont(dpy, "-*-*-*-*-*-*-20-*-*-*-*-*-*-*");
-    gr_values.font =   fontinfo->fid; 
+    gr_values.font =   fontinfo ->fid; 
     gr_values.function =   GXcopy; 
     gr_values.plane_mask = AllPlanes; 
   gr_values.foreground = BlackPixel(dpy,screen); 

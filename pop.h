@@ -49,7 +49,6 @@ typedef struct{
 
 //textuel global variables
 extern int desc;
-//extern int port;
 extern server_info server;
 extern pop response;
 
@@ -98,30 +97,11 @@ typedef struct{
   char password[20];
 } user;
 
-/*typedef struct desc_case {
-  int colspan;
-  int rowspan;
-  char *onmouseover;
-  char *onmouseout;
-  XColor bgcolor;
-  char *id;
-  Window fenetre;
-  struct desc_case * next;
-} liste_de_case;
-
-typedef struct desc_ligne {
-  struct desc_case * premier;
-  struct desc_case * dernier;
-  struct desc_ligne * next;
-} liste_de_ligne;
-*/
 typedef struct {
   int nb_tr;
   int nb_td;
   int width;
   int height;
-//  liste_de_ligne *premier;
-//  liste_de_ligne *dernier;
 } GridWinInfo;
 
 typedef struct{
@@ -168,10 +148,3 @@ extern void updateLoginField(char* buffer, user* user);
 extern void delOneLoginField(char* buffer, user* user);
 extern int sendLogin(user* user);
 extern void restartLogin();
-
-//extern void createXTable();
-//extern void createTableLine(void *data);
-//extern void createTableCell(void *data);
-//extern void add_line(XTable *t, liste_de_ligne *r);
-//extern void add_cell(XTable *t, liste_de_case *r);
-//extern void create_td_window(Window fen);

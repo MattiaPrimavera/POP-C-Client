@@ -9,40 +9,31 @@ l=X11
 CC = cc -Wall 
 
 B=main-pop
-C=clickable-pop
+C=clicable-pop
 T=textuel-pop
-G=graphical-pop
-P=peroraison
-I=InitConnexion
+G=graphique-pop
+R=requests-pop
+E=events-pop
+P=pop
+
 A=AnalyseEntetes
-E=events
+
 
 TEST1 = "USER moi\nPASS a\nLIST\nQUIT\n"
 TEST2 = "USER moi\nPASS a\nTOP 1 0\nRETR 1"
 
-#POP Requests
-R1=user_req
-#user_req -> USER, PASS and QUIT requests  
-R2=list_req
-R3=top_req
-R4=retr_req
 
 HOST=localhost
-PORT=5003
+PORT=5000
 
-ALLC=$(B).c $(C).c $(P).c $(E).c $(I).c $(A).c $(G).c $(T).c $(R1).c $(R2).c $(R3).c $(R4).c 
-#ALLO=$P.o $(C).o $(E).o $(I).o $(X).o $(A).o $(R1).o $(R2).o $(R3).o $(R4).o 
-ALLO= $(OBJDIR)/$P.o \
-	  $(OBJDIR)/$(C).o \
+ALLC=$(B).c $(C).c $(E).c  $(A).c $(G).c $(T).c $(R).c  
+ALLO= $(OBJDIR)/$(C).o \
 	  $(OBJDIR)/$(E).o \
-	  $(OBJDIR)/$(I).o \
 	  $(OBJDIR)/$(A).o \
  	  $(OBJDIR)/$(G).o \
 	  $(OBJDIR)/$(T).o \
-	  $(OBJDIR)/$(R1).o \
-	  $(OBJDIR)/$(R2).o \
-	  $(OBJDIR)/$(R3).o \
-	  $(OBJDIR)/$(R4).o 
+	  $(OBJDIR)/$(R).o \
+
 
 #compilation
 $(OBJDIR)/$(B):	$(B).c $(ALLO) $(P).h
