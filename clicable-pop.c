@@ -31,7 +31,7 @@ void graphicalMain(int argc, char** argv){
   //own.dernier = NULL;
   own.nb_tr= 0;
   own.nb_td= 0;
-  own.width= 500;//100;
+  own.width= 600;//100;
   own.height= 300;//50;
 
   //STARTING GUI 
@@ -88,7 +88,7 @@ void createListWindow(){
   own.nb_tr = response.nombreMessages + 1;
   own.nb_td = 3;
   
-  int width = (int) (own.width / own.nb_td);
+  int width = (int) (own.width / own.nb_td + 10);
   int height = (int) (own.height / own.nb_tr);
 
   XColor bgcolor;
@@ -131,7 +131,7 @@ void decoratingListWindow(){
   int width = (int) (own.width / own.nb_td);
   int height = (int) (own.height / own.nb_tr);
   
-  int x = width/2 - width/4;
+  int x = 5;//width/2 - width/4;
   int y = height/2 - height/5;
 
   //INTESTATION
@@ -144,7 +144,7 @@ void decoratingListWindow(){
   message* mex = response.listeMessages;
   int i, j=3;
   for(i = 0; i < response.nombreMessages-1; i++){
-    sprintf(idBuffer, "%d", mex->id);
+    sprintf(idBuffer, "%d", mex->id+1);
     DISPLAYTEXT(filles[j], x, y, idBuffer);
     DISPLAYTEXT(filles[j+1], x, y, mex->date);
     DISPLAYTEXT(filles[j+2], x, y, mex->emetteur);

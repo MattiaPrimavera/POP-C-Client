@@ -35,7 +35,7 @@ void fKeyPress (XKeyEvent *event, user* user)
 
   //Return Key
   if(keysym == XK_Return){
-    printf("retour chariot\n");
+    //printf("retour chariot\n");
     if((!passwdOK && userOk) || (passwdOK && !userOk)){
       printf("Connexion sur %s sur le port %d\n", server.serverAddress, server.port);
       desc = InitConnexion(server.serverAddress, server.port);  
@@ -48,28 +48,28 @@ void fKeyPress (XKeyEvent *event, user* user)
       }
     }
     if(loginFocus == loginWin[0]){
-      printf("Setting User True\n");
+      //printf("Setting User True\n");
       userOk = TRUE; loginFocus = loginWin[1];
     }
     else if(loginFocus == loginWin[1]){
-      printf("Setting Pass True\n");
+      //printf("Setting Pass True\n");
       passwdOK = TRUE; loginFocus = loginWin[0];
     }
   }//ASCII chars
   else if ((keysym >= XK_space) && (keysym <= XK_asciitilde)){
-    printf ("Ascii key:- ");
+    //printf ("Ascii key:- ");
     updateLoginField(buffer, user);
   } //ARROW KEYS
   else if ((keysym >= XK_Left) && (keysym <= XK_Down)){
-    printf("Arrow Key:-");
+    //printf("Arrow Key:-");
     switch(keysym){
       case XK_Up:
       if(loginFocus != loginWin[0]) loginFocus = loginWin[0]; 
-      printf("Up\n");
+      //printf("Up\n");
       break;
       case XK_Down: 
       if(loginFocus != loginWin[1]) loginFocus = loginWin[1];
-      printf("Down\n");
+      //printf("Down\n");
       break; 
       default:
         break;
@@ -85,7 +85,7 @@ void fKeyPress (XKeyEvent *event, user* user)
     XCloseDisplay(dpy); 
     exit (0);
   }else{
-    printf("Not handled\n");
+    //printf("Not handled\n");
   }
 }
 
@@ -153,7 +153,7 @@ void delOneLoginField(char* buffer, user* user){
 int sendLogin(user* user){
   char request[30];
   sprintf(request, "USER %s\n", user->name);
-  printf("RICHIESTA DA INVIARE:%s", request);
+  //printf("REQUETE:%s", request);
   if(PopUser(request, desc, &response) != 0)
     return -1;
   sprintf(request, "PASS %s\n", user->password);
@@ -161,10 +161,6 @@ int sendLogin(user* user){
     return -1;
   if(PopList("LIST\n", desc, &response) != 0)
     return -1;
-  //TOP request for each message retrieved
-  //if(response.nombreMessages == 0) return -1;
-  //PopTop("TOP 1 0\n", desc, &response);
-
   
   int i;
   for(i=0; i<response.nombreMessages-1; i++){

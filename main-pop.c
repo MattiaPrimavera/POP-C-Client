@@ -34,8 +34,8 @@ int InitConnexion(char *serveur, int port)
  //recherche toute les IP du serveur
  for (addrTmp = addrResult; addrTmp; addrTmp = addrTmp->ai_next) {
    i++;
-   printf("  socket no%d:\n\tdomain:%d type:%d protocole:%d\n",i,
-    addrTmp->ai_family, addrTmp->ai_socktype,addrTmp->ai_protocol);
+   //printf("  socket no%d:\n\tdomain:%d type:%d protocole:%d\n",i,
+    //addrTmp->ai_family, addrTmp->ai_socktype,addrTmp->ai_protocol);
    //ai_proto=6 pour TCp alors  AFINET pour ipv4 par default
    sin = (void *)addrTmp->ai_addr;
    if (inet_ntop(AF_INET, &sin->sin_addr, ascii_buffer, sizeof(ascii_buffer)) == NULL)

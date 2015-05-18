@@ -10,7 +10,7 @@ import sys
 import traceback
 
 logging.basicConfig(format="%(name)s %(levelname)s - %(message)s")
-log = logging.getLogger("pypopper")
+log = logging.getLogger("pop-server")
 log.setLevel(logging.INFO)
 
 
@@ -71,7 +71,7 @@ class Message(object):
 def handleUser(data, msgList):
     userName = "moi"
     request, arg = data.split(" ", 1)
-    print "handleUser, arg:{0}".format(arg)
+    #print "handleUser, arg:{0}".format(arg)
     if '\n' in arg: 
         arg = arg[:-1]
     if(arg == userName):
@@ -99,10 +99,10 @@ def handleList(data, msgList):
 
 def handleTop(data, msgList):
     try:
-        print "in handleTOP,data:%s" % data
+        #print "in handleTOP,data:%s" % data
         if '\n' in data: data = data[:-1]
         result = data.split(' ')
-        print "LISTA:\n{0}".format(result)
+        #print "LISTA:\n{0}".format(result)
         n = int(result[1])
         n2 = int(result[2])
         if(n2 != 0): return "-ERR TOP request"
@@ -115,12 +115,12 @@ def handleTop(data, msgList):
     return "+OK top of message follows\n%s\n." % mex.top
 
 def handleRetr(data, msgList):
-    log.info("message sent")
+    #log.info("message sent")
     try:
-        print "in handleRetr,data:%s" % data
+        #print "in handleRetr,data:%s" % data
         if '\n' in data: data = data[:-1]
         result = data.split(' ', 1)
-        print "LISTA:\n{0}".format(result)
+        #print "LISTA:\n{0}".format(result)
         n = int(result[1])
     except:
         return "-ERR TOP request"
@@ -135,8 +135,8 @@ def handleNoop(data, msgList):
     return "+OK"
 
 def handleQuit(data, msgList):
-    print "in quit request, data:{0}".format(data)
-    return "+OK pypopper POP3 server signing off"
+    #print "in quit request, data:{0}".format(data)
+    return "+OK pop-server signing off"
 
 dispatch = dict(
     USER=handleUser,
@@ -150,14 +150,17 @@ dispatch = dict(
 
 def serve(host, port, databasePath):
     assert os.path.exists(databasePath)
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind((host, port))
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.bind((host, port))
+    except Exception:
+        print "ATTENTION! The socket is already in use... make sure the server uses a free port\n"
     try:
         if host:
             hostname = host
         else:
             hostname = "localhost"
-        log.info("pypopper POP3 serving '%s' on %s:%s", databasePath, hostname, port)
+        log.info("pop-server POP3 serving '%s' on %s:%s", databasePath, hostname, port)
         while True: 
             sock.listen(1)
             conn, addr = sock.accept()
@@ -165,13 +168,12 @@ def serve(host, port, databasePath):
             try:
                 msgListList = ListeMessages(databasePath)
                 conn = ChatterboxConnection(conn)
-                #conn.sendall("+OK pypopper file-based pop3 server ready")
                 while True:
                     data = conn.recvall()#[:-1]
-                    print "data contains: {0}".format(data)
-                    log.debug('data contains: %s', data)
+                    #print "data contains: {0}".format(data)
+                    #log.debug('data contains: %s', data)
                     command = data.split(None, 1)[0]
-                    log.debug('command contains: %s', command)
+                    #log.debug('command contains: %s', command)
 
                     try:
                         cmd = dispatch[command]
@@ -185,7 +187,7 @@ def serve(host, port, databasePath):
                 conn.close()
                 msgList = None
     except (SystemExit, KeyboardInterrupt):
-        log.info("pypopper stopped")
+        log.info("pop-server stopped")
     except Exception, ex:
         log.critical("fatal error", exc_info=ex)
     finally:
@@ -200,6 +202,7 @@ def createDatabase(databasePath):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
+    print("CREATION DATABASE MESSAGES...")
     for (i, mex) in enumerate(messages):
         #print mex
         filePath = directory + "/" + str(i+1) + ".txt" 

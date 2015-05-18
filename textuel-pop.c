@@ -21,7 +21,7 @@ void cleanPop(pop* response){
 
 message* findById(int id, pop* response){
   if(response->nombreMessages == 0){
-    printf("listeMessages BIEN VIDE!\n");
+    //printf("listeMessages BIEN VIDE!\n");
     return NULL;
   }
 
@@ -31,7 +31,7 @@ message* findById(int id, pop* response){
     if(tmp->id == id) return tmp;
     tmp = tmp->next;
   }
-  printf("AUCUN ID NE CORRESPOND!!!\n\n\n"); 
+  //printf("AUCUN ID NE CORRESPOND!!!\n\n\n"); 
   return NULL;
 }
 
@@ -75,7 +75,7 @@ int verifieSyntaxe(char* requete, char* controle){
     printf("La Requete saisie n'est pas desservi par le protocole POP.\n");
     return -1;
   }
-  printf("La requete %s est bien formulee'\n", controle);
+  //printf("La requete %s est bien formulee'\n", controle);
   return 0;
 }
 
@@ -101,6 +101,7 @@ void textuelMain(int argc, char** argv){
     while (fgets(in,LINELENGTH,stdin)){ 
       //printf("REQUETE: %s\n", in);
       char sep = tolower(in[0]);
-      printf("%d\n", actions[hash_balise(&sep)](in, desc, &response));
+      //printf("%d\n", actions[hash_balise(&sep)](in, desc, &response));
+      actions[hash_balise(&sep)](in, desc, &response);
     }
 }
