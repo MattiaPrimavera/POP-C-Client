@@ -3,7 +3,7 @@
 #       Universite Pierre & Marie Curie                #
 #       Un client POP graphique						   #
 ########################################################
-OBJDIR := /tmp/3404341
+OBJDIR := /tmp/temporaire
 
 l=X11
 CC = cc -Wall 
