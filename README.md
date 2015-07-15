@@ -1,10 +1,16 @@
 # POP-C-Client
 
-Pour lancer les tests
+## Tests automatiques
 
-make t-test-1 //test automatiques, mode textuel
-make t-test-2
+mode textuel :
 
-make c-test //mode cliquable
+    make t-test-1
+    make t-test-2
 
-make g-test //mode graphique
+mode cliquable :
+
+    make c-test
+
+mode graphique :
+
+    make g-test
