@@ -1,18 +1,19 @@
 #include "pop.h"
 
-void createRetrWindow(int mexId){
-//  message* mex = findById(mexId, &response);
+void createRetrWindow(int mexId)
+{
+  //message* mex = findById(mexId, &response);
   retrWinList[mexId].mexId = mexId;
 
   //CREATING RETR WINDOW
   XColor bgcolor;
   bgcolor.pixel = 25000;
   screen = DefaultScreen(dpy);
-  Window retrWin = XCreateSimpleWindow(dpy, XRootWindow(dpy,screen), 0, 0,
+  Window retrWin = XCreateSimpleWindow(dpy, XRootWindow(dpy, screen), 0, 0,
                500,
                500,
-               BORDER, 
-               WhitePixel(dpy,DefaultScreen(dpy)),
+               BORDER,
+               WhitePixel(dpy, DefaultScreen(dpy)),
                bgcolor.pixel);
 
   //CREATING SUB-RIGHT-WINDOW
@@ -21,17 +22,17 @@ void createRetrWindow(int mexId){
   Window retrWinSub = XCreateSimpleWindow(dpy, retrWin, 450, 0,
                50,
                500,
-               BORDER, 
-               WhitePixel(dpy,DefaultScreen(dpy)),
-               subColor.pixel);  
+               BORDER,
+               WhitePixel(dpy, DefaultScreen(dpy)),
+               subColor.pixel);
 
   //SENSIBILIZATION AND MAPPING
   XSelectInput(dpy, retrWin, ExposureMask);
   XSelectInput(dpy, retrWinSub, ExposureMask | ButtonPressMask);
 
   XMapWindow(dpy, retrWin);
-  XMapWindow(dpy, retrWinSub); 
-  XFlush(dpy); 
+  XMapWindow(dpy, retrWinSub);
+  XFlush(dpy);
 
   retrWinList[mexId].main = retrWin;
   retrWinList[mexId].scroll = retrWinSub;
