@@ -6,7 +6,7 @@
 OBJDIR := /tmp/temporaire
 
 l=X11
-CC = cc -Wall 
+CC=cc -Wall
 
 B=main-pop
 C=clicable-pop
@@ -22,48 +22,46 @@ TEST1 = "USER moi\nPASS a\nLIST\nQUIT\n"
 TEST2 = "USER moi\nPASS a\nTOP 1 0\nRETR 1\nQUIT\n"
 TEST3 = "USER moi\nPASS a\nRETR 2\nQUIT\n"
 
-
 HOST=localhost
 PORT=6020
 
-ALLC=$(B).c $(C).c $(E).c  $(A).c $(G).c $(T).c $(R).c  
-ALLO= $(OBJDIR)/$(C).o \
-	  $(OBJDIR)/$(E).o \
-	  $(OBJDIR)/$(A).o \
- 	  $(OBJDIR)/$(G).o \
-	  $(OBJDIR)/$(T).o \
-	  $(OBJDIR)/$(R).o \
-
+ALLC=$(B).c $(C).c $(E).c  $(A).c $(G).c $(T).c $(R).c
+ALLO=$(OBJDIR)/$(C).o \
+     $(OBJDIR)/$(E).o \
+     $(OBJDIR)/$(A).o \
+     $(OBJDIR)/$(G).o \
+     $(OBJDIR)/$(T).o \
+     $(OBJDIR)/$(R).o \
 
 #compilation
 $(OBJDIR)/$(B):	$(B).c $(ALLO) $(P).h
 	$(CC) $< $(ALLO) -l$l -o $@
 
 $(OBJDIR)/%.o:  %.c $(P).h
-	$(CC) -c $< -o $@ 
+	$(CC) -c $< -o $@
 
 $(ALLO): $(OBJDIR)
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
-#tests	
-t-test-1: $(OBJDIR)/$(B) 
+#tests
+t-test-1: $(OBJDIR)/$(B)
 	python pop-server.py $(HOST):$(PORT) messagesDir &
 	sleep 2
-	echo ${TEST1} | $(OBJDIR)/$(B) $(HOST) $(PORT) -t 
+	echo ${TEST1} | $(OBJDIR)/$(B) $(HOST) $(PORT) -t
 
-t-test-2: $(OBJDIR)/$(B) 
+t-test-2: $(OBJDIR)/$(B)
 	python pop-server.py $(HOST):$(PORT) messagesDir &
 	sleep 2
-	echo ${TEST2} | $(OBJDIR)/$(B) $(HOST) $(PORT) -t 
+	echo ${TEST2} | $(OBJDIR)/$(B) $(HOST) $(PORT) -t
 
-t-test-3: $(OBJDIR)/$(B) 
+t-test-3: $(OBJDIR)/$(B)
 	python pop-server.py $(HOST):$(PORT) messagesDir &
 	sleep 2
 	echo ${TEST3} | $(OBJDIR)/$(B) $(HOST) $(PORT) -t
 
-t-test: $(OBJDIR)/$(B) 
+t-test: $(OBJDIR)/$(B)
 	python pop-server.py $(HOST):$(PORT) messagesDir &
 	sleep 2
 	$(OBJDIR)/$(B) $(HOST) $(PORT) -t
@@ -80,8 +78,7 @@ g-test: $(OBJDIR)/$(B)
 
 #clean the project dir
 raz:
-	@rm -f *.o $(B) 1.txt 2.asc 3.txt 
-	@rm -r $(OBJDIR) 
-	@rm -r messagesDir 
+	@rm -f *.o $(B) 1.txt 2.asc 3.txt
+	@rm -r $(OBJDIR)
+	@rm -r messagesDir
 	#@kill $(lsof -t -i:5054)
-
