@@ -77,7 +77,7 @@ g-test: $(OBJDIR)/$(B)
 	$(OBJDIR)/$(B) $(HOST) $(PORT) -g
 
 #clean the project dir
-raz:
+cleanall:
 	@rm -f *.o $(B) 1.txt 2.asc 3.txt
 	@rm -r $(OBJDIR)
 	@rm -r messagesDir
