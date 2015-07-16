@@ -38,3 +38,9 @@ clickable mode :
 graphical mode :
 
     make g-test
+    
+## Clean 
+
+To clean your project directory from temporary and executable files:
+
+    make cleanall
