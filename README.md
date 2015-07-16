@@ -2,12 +2,12 @@
 
 ## Requirements
 
-* lib X11
-* change the makefile link to your X11 library path
+* X11 Library
+* change the makefile link to X11 library according to its path on your system
 
 ## Synopsis
 
-This project is a [Post-Office-Protocol (POP)] Client for retrieving mails from an email Server. Only a part of the protocol has been considered for this implementation, that is to say the following requests from the protocol:
+This project is a [Post-Office-Protocol (POP)](https://fr.wikipedia.org/wiki/Post_Office_Protocol) Client for retrieving mails from an email Server. Only a part of the protocol has been considered in this implementation, that is to say the following requests from the protocol:
 
 The two first to handle the loggin phase:
 * USER username
@@ -19,9 +19,10 @@ The others for interacting with the server:
 * QUIT, to quit the server and stop the client
 * RETR n, to retrieve the message n
 
-Two modes are proposed to interact with the server:
+Three modes are proposed to interact with the server:
 * text mode: everything happens via command line
 * graphical mode : the loggin becomes graphical, a click on the message ID will save the message on the hard drive.
+* advanced graphical mode : a complete message can be read on a new window instead of being saved (third mode is still a work in progress)
 
 ## Tests Automatiques
 
