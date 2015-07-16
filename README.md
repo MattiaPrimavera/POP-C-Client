@@ -21,20 +21,20 @@ The others for interacting with the server:
 
 Three modes are proposed to interact with the server:
 * text mode: everything happens via command line
-* graphical mode : the loggin becomes graphical, a click on the message ID will save the message on the hard drive.
-* advanced graphical mode : a complete message can be read on a new window instead of being saved (third mode is still a work in progress)
+* clickable mode : the loggin becomes graphical, a click on the message ID will save the message on the hard drive.
+* graphical mode : a complete message can be read on a new window instead of being saved (third mode is still a work in progress)
 
-## Tests Automatiques
+## Automatic Tests
 
-mode textuel :
+text mode :
 
     make t-test-1
     make t-test-2
 
-mode cliquable :
+clickable mode :
 
     make c-test
 
-mode graphique :
+graphical mode :
 
     make g-test
