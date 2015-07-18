@@ -21,7 +21,7 @@ The others for interacting with the server:
 
 Three modes are proposed to interact with the server:
 * text mode: everything happens via command line
-* clickable mode: the loggin becomes graphical, a click on the message ID will save the message on the hard drive
+* clickable mode: the login becomes graphical, a click on the message ID will save the message on the hard drive
 * graphical mode: a complete message can be read on a new window instead of being saved (third mode is still a work in progress)
 
 ## Automatic Tests
@@ -38,8 +38,8 @@ Clickable mode:
 Graphical mode:
 
     make g-test
-    
-## Clean 
+
+## Clean
 
 To clean your project directory from temporary and executable files:
 
