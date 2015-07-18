@@ -4,6 +4,24 @@
 
 * X11 Library
 * change the makefile link to X11 library according to its path on your system
+* Python 
+
+## To Execute
+
+Compile the files with the following command:
+
+	make
+	
+Now first start the server:
+
+	python pop-server.py host:port messagesDir
+	
+where `messagesDir` simulates the database where your mail would be stored in your server. 
+Now you can start the POP-Client with one of the following commands:
+
+	./main-pop host port -t --> text mode
+	./main-pop host port -c --> clickable mode
+	./main-pop host port -g --> graphical mode 
 
 ## Synopsis
 
@@ -26,10 +44,14 @@ Three modes are proposed to interact with the server:
 
 ## Automatic Tests
 
-Text mode:
+The Server and the Client will be automatically set and executed in order to make their communication possible.
+Tests named `t-test-N` take not only care about setting the programs but simulate a predefined communication between the Server and the Client.
 
-	make t-test-1
+Text mode: 
+
+	make t-test-1 
 	make t-test-2
+	make t-test-3
 
 Clickable mode:
 
@@ -37,7 +59,8 @@ Clickable mode:
 
 Graphical mode:
 
-	make g-test
+	make g-test (Work in Progress)
+
 
 ## Clean
 
