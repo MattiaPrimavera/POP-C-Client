@@ -27,24 +27,24 @@
 
 typedef struct message message;
 struct message {
-  int id;
-  int taille;
-  char *emetteur;
-  char *date;
-  char* entetes;
-  char *corps;
-  char* contentType;
-  message* next;
+    int id;
+    int taille;
+    char* emetteur;
+    char* date;
+    char* entetes;
+    char* corps;
+    char* contentType;
+    message* next;
 };
 
 typedef struct {
-  int nombreMessages;
-  message* listeMessages;
+    int nombreMessages;
+    message* listeMessages;
 } pop;
 
 typedef struct {
-  char* serverAddress;
-  int port;
+    char* serverAddress;
+    int port;
 } server_info;
 
 //textuel global variables
@@ -86,28 +86,28 @@ extern int PopRetr(char* requete, int desc, pop* response);
 
 //GRAPHIC PART
 #define DISPLAYTEXT(win, x, y, text) \
-  XDrawString(dpy, win, gc, x, y, text, strlen(text));
+    XDrawString(dpy, win, gc, x, y, text, strlen(text));
 
 #define MARGIN 10
 #define BORDER 2
 #define nb_LIGNES 10
 
 typedef struct {
-  char name[20];
-  char password[20];
+    char name[20];
+    char password[20];
 } user;
 
 typedef struct {
-  int nb_tr;
-  int nb_td;
-  int width;
-  int height;
+    int nb_tr;
+    int nb_td;
+    int width;
+    int height;
 } GridWinInfo;
 
 typedef struct {
-  Window main;
-  Window scroll;
-  int mexId;
+    Window main;
+    Window scroll;
+    int mexId;
 } RetrWin;
 
 extern Display *dpy;

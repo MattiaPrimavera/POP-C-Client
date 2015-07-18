@@ -1,7 +1,7 @@
 ########################################################
-#		PRIMAVERA Mattia							   #
-#       Universite Pierre & Marie Curie                #
-#       Un client POP graphique						   #
+#           PRIMAVERA Mattia                           #
+#           Universite Pierre & Marie Curie            #
+#           Un client POP graphique                    #
 ########################################################
 OBJDIR := /tmp/temporaire
 
