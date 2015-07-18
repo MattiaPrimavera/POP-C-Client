@@ -9,7 +9,7 @@
 
 This project is a [Post-Office-Protocol (POP)](https://fr.wikipedia.org/wiki/Post_Office_Protocol) Client for retrieving mails from an email Server. Only a part of the protocol has been considered in this implementation, that is to say the following requests from the protocol:
 
-The two first to handle the loggin phase:
+The two first to handle the login phase:
 * `USER` username
 * `PASS` password, for specifying the unencrypted password
 
