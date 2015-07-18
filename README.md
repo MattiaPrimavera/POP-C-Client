@@ -28,19 +28,19 @@ Three modes are proposed to interact with the server:
 
 Text mode:
 
-    make t-test-1
-    make t-test-2
+	make t-test-1
+	make t-test-2
 
 Clickable mode:
 
-    make c-test
+	make c-test
 
 Graphical mode:
 
-    make g-test
+	make g-test
 
 ## Clean
 
 To clean your project directory from temporary and executable files:
 
-    make cleanall
+	make cleanall
