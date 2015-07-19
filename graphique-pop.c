@@ -20,11 +20,11 @@ void createRetrWindow(int mexId)
     XColor subColor;
     subColor.pixel = 50000;
     Window retrWinSub = XCreateSimpleWindow(dpy, retrWin, 450, 0,
-                        50,
-                        500,
-                        BORDER,
-                        WhitePixel(dpy, DefaultScreen(dpy)),
-                        subColor.pixel);
+                            50,
+                            500,
+                            BORDER,
+                            WhitePixel(dpy, DefaultScreen(dpy)),
+                            subColor.pixel);
 
     //SENSIBILIZATION AND MAPPING
     XSelectInput(dpy, retrWin, ExposureMask);
