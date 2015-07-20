@@ -23,6 +23,10 @@ void AnalyseEntetes(char* requete, int mexId, FILE *fdesc, pop* response)
 
     mex->contentType = sauvegardeEnTetes(mex->entetes, fdesc, mex);
 
+    if (!strncmp(requete, "TOP", 3)) {
+        printf("%s", mex->entetes);
+    }
+
     //printf("En-tetes trouvees:\nFrom: %s\nDate: %s\n", mex->emetteur, mex->date);
     //printf("Content-Type found :%s\n", mex->contentType);
     if (!strncmp(requete, "RETR", strlen("RETR"))) {

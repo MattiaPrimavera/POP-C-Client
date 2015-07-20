@@ -81,4 +81,4 @@ cleanall:
 	@rm -f *.o $(B) 1.txt 2.asc 3.txt
 	@rm -r $(OBJDIR)
 	@rm -r messagesDir
-	#@kill $(lsof -t -i:5054)
+	@kill $(lsof -t -i:6020)

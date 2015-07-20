@@ -12,7 +12,7 @@ int PopUser(char* requete, int desc, pop* response)
     if (reponsePositive(fdesc, &reponse[0]) != 0) {
         return -1;
     }
-    //printf("REPONSE:%s\n", reponse);
+    printf("%s\n", reponse);
     return 0;
 }
 
@@ -24,9 +24,10 @@ int PopPass(char* requete, int desc, pop* response)
     //lecture Reponse
     FILE* fdesc = fdopen(desc, "r");
     char reponse[LINELENGTH];
-    printf("%s", reponse);
 
     if (reponsePositive(fdesc, reponse) != 0) return -1;
+    printf("%s\n", reponse);
+
     return 0;
 }
 
@@ -60,8 +61,8 @@ int PopTop(char* requete, int desc, pop* response)
     //lecture 1ere ligne
     FILE* fdesc = fdopen(desc, "r");
     char reponse[LINELENGTH];
-    printf("%s", reponse);
     if (reponsePositive(fdesc, reponse) != 0) return -1;
+    printf("%s", reponse);
 
     //recuperation id message
     int mexId = 0;
@@ -85,8 +86,8 @@ int PopRetr(char* requete, int desc, pop* response)
     //lecture 1ere ligne
     FILE* fdesc = fdopen(desc, "r");
     char reponse[LINELENGTH];
-    printf("%s", reponse);
     if (reponsePositive(fdesc, &reponse[0]) != 0) return -1;
+    printf("%s", reponse);
 
     //recuperation id message
     int mexId = 0;
@@ -108,8 +109,8 @@ int PopList(char* requete, int desc, pop* response)
     //lecture 1ere ligne
     FILE* fdesc = fdopen(desc, "r");
     char reponse[LINELENGTH];
-    printf("%s", reponse);
     if (reponsePositive(fdesc, reponse) != 0) return -1;
+    printf("%s", reponse);
     cleanPop(response);
     //lecture corps reponse
     while (fgets(reponse, LINELENGTH, fdesc)) {
