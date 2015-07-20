@@ -47,7 +47,7 @@ Three modes are proposed to interact with the server:
 The Server and the Client will be automatically set and executed in order to make their communication possible.
 Tests named `t-test-N` take not only care about setting the programs but simulate a predefined communication between the Server and the Client.
 
-Text mode: 
+1. Text mode: 
 
 * The first automatic test starts the Server Simulator and sends a `list` request after having logged in, then correctly stops the program notifying it to the Server (`quit` request):
 
@@ -61,13 +61,13 @@ Text mode:
 
 		make t-test-3
 
-Clickable mode:
+2. Clickable mode:
 
-	make c-test
+		make c-test
 
-Graphical mode:
+3. Graphical mode:
 
-	make g-test (Work in Progress)
+		make g-test (Work in Progress)
 
 
 ## Clean
