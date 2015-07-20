@@ -49,17 +49,17 @@ Tests named `t-test-N` take not only care about setting the programs but simulat
 
 1. Text mode: 
 
-* The first automatic test starts the Server Simulator and sends a `list` request after having logged in, then correctly stops the program notifying it to the Server (`quit` request):
+	* The first automatic test starts the Server Simulator and sends a `list` request after having logged in, then correctly stops the program notifying it to the Server (`quit` request):
 
-		make t-test-1 
+			make t-test-1 
 
-* The second test shows the POP-Client checking the headers of the message which id is 1 and retrieving it:
+	* The second test shows the POP-Client checking the headers of the message which id is 1 and retrieving it:
 
-		make t-test-2
+			make t-test-2
 	
-* The third one shows the POP-Client directly retrieving the third message from the mail-box:
+	* The third one shows the POP-Client directly retrieving the third message from the mail-box:
 
-		make t-test-3
+			make t-test-3
 
 2. Clickable mode:
 
